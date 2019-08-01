@@ -234,6 +234,7 @@ let addFoodPlacePage = (request,response)=>{
 
 let homePage = (request,response)=>{
     // response.send('inside homepage function');
+    let outcome = false;
     if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
         response.send('Please login or sign up');
     }
@@ -247,11 +248,26 @@ let homePage = (request,response)=>{
             }
             else{
                 // console.log(result.rows);
-                let data = {
-                    userId : request.cookies.user_id,
-                    placeData:result.rows
+                outcome = true;
+                if(outcome = true){
+                    let query2 = 'select * from users where id = $1'
+                    let values = [request.cookies.user_id]
+                    pool.query(query2,values,(error,results)=>{
+                        if(error){
+                            console.log('error at second query', error);
+                            response.send('error at second query');
+                        }
+                        else{
+                            console.log(results.rows)
+                            let data = {
+                                userId : request.cookies.user_id,
+                                placeData:result.rows,
+                                userData: results.rows[0]
+                            }
+                            response.render('homepage',data)
+                        }
+                    })
                 }
-                response.render('homepage',data)
             }
         })
     }
