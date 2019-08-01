@@ -2,7 +2,7 @@ var React = require("react");
 
 class CreateAccount extends React.Component {
   render() {
-    let urlLogin = '/findfood/login';
+    let urlLogin = '/findfood';
     let urlSignUp = '/findfood/signup';
     return (
       <html>

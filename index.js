@@ -58,121 +58,148 @@ let logout = (request,response)=>{
     response.clearCookie('logged_in');
     response.cookie('loggedin');
     response.clearCookie('user_id');
-    response.redirect('/findfood/login');
+    response.redirect('/findfood');
 }
 
 let postReview = (request,response)=>{
-    // response.send('inside post review function');
-    console.log('this is the shop_id: ',request.params.shop_id)
-    console.log('this is the user_id: ',request.params.user_id)
-    console.log(request.body);
-    let query = 'insert into reviews(rating, comment, shop_id, user_id) values($1, $2, $3, $4)';
-    let values = [request.body.rating, request.body.comment,request.params.shop_id,request.params.user_id]
-    console.log(values);
-    pool.query(query,values,(error,result)=>{
-        if(error){
-            console.log('error',error);
-            response.send('error in inserting data');
-        }
-        else{
-            console.log(result.rows);
-            response.redirect('/findfood/individual/'+request.params.shop_id);
-        }
-    })
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        // response.send('inside post review function');
+        console.log('this is the shop_id: ',request.params.shop_id)
+        console.log('this is the user_id: ',request.params.user_id)
+        console.log(request.body);
+        let query = 'insert into reviews(rating, comment, shop_id, user_id) values($1, $2, $3, $4)';
+        let values = [request.body.rating, request.body.comment,request.params.shop_id,request.params.user_id]
+        console.log(values);
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in inserting data');
+            }
+            else{
+                console.log(result.rows);
+                response.redirect('/findfood/individual/'+request.params.shop_id);
+            }
+        })
+    }
 }
 
 let showIndividualShop = (request,response)=>{
-    // response.send('inside showIndividualShop function');
-    console.log(request.params.id);
-    let query = 'select * from foodplace where id = $1';
-    let values = [request.params.id];
-    pool.query(query,values,(error,result)=>{
-        if(error){
-            console.log('error',error);
-            response.send('error in checking database');
-        }
-        else{
-            // console.log(result.rows[0]);
-            let data = {
-                shop:result.rows[0]
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        // response.send('inside showIndividualShop function');
+        console.log(request.params.id);
+        let query = 'select * from foodplace where id = $1';
+        let values = [request.params.id];
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in checking database');
             }
-            console.log(data);
-            response.render('individualpage',data);
-        }
-    })
+            else{
+                // console.log(result.rows[0]);
+                let data = {
+                    shop:result.rows[0]
+                }
+                console.log(data);
+                response.render('individualpage',data);
+            }
+        })
+    }
 }
 
 
 let showMentionedCategory = (request,response)=>{
-    // response.send('inside showMentionedCategory function');
-    // console.log('this is the location: ', request.params.location);
-    // console.log('this is the selected category: ', request.params.category);
-    let query = 'select * from foodplace where location = $1 and category = $2';
-    let values = [request.params.location,request.params.category];
-    // console.log(values);
-    pool.query(query,values,(error,result)=>{
-        if(error){
-            console.log('error',error);
-            response.send('error in checking database')
-        }
-        else{
-            // console.log(result.rows);
-            let data = {
-                location:request.params.location,
-                category:request.params.category,
-                allMentionedFoodResult: result.rows
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        // response.send('inside showMentionedCategory function');
+        // console.log('this is the location: ', request.params.location);
+        // console.log('this is the selected category: ', request.params.category);
+        let query = 'select * from foodplace where location = $1 and category = $2';
+        let values = [request.params.location,request.params.category];
+        // console.log(values);
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in checking database')
             }
-            console.log(data);
-            response.render('category',data);
-        }
-    })
+            else{
+                // console.log(result.rows);
+                let data = {
+                    location:request.params.location,
+                    category:request.params.category,
+                    allMentionedFoodResult: result.rows
+                }
+                console.log(data);
+                response.render('category',data);
+            }
+        })
+    }
 }
 
 let showAllFood = (request,response)=>{
-    // response.send('inside show all food function');
-    console.log(request.params.location);
-    let query = 'select * from foodplace where location = $1'
-    let values = [request.params.location];
-    pool.query(query,values,(error,result)=>{
-        if(error){
-            console.log('error', error);
-        }
-        else{
-            console.log(result.rows);
-            let data = {
-                location: request.params.location,
-                allFoodAtLocation : result.rows
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        // response.send('inside show all food function');
+        console.log(request.params.location);
+        let query = 'select * from foodplace where location = $1'
+        let values = [request.params.location];
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error', error);
             }
-            response.render('allfoodlocationpage',data);
-        }
-    })
-
+            else{
+                console.log(result.rows);
+                let data = {
+                    location: request.params.location,
+                    allFoodAtLocation : result.rows
+                }
+                response.render('allfoodlocationpage',data);
+            }
+        })
+    }
 }
 
 let searchByLocation = (request,response)=>{
-    console.log(request.body.search);
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        console.log(request.body.search);
     // response.send('inside search by location function');
-    response.redirect('/findfood/search/'+request.body.search);
+        response.redirect('/findfood/search/'+request.body.search);
+    }
 }
 
 let foodPost = (request,response)=>{
     // console.log(request.params.id);
     // console.log(request.body);
-    //
-    let query = 'insert into foodplace(shopname, address, postalcode, location, image_url, category, user_id) values($1, $2, $3, $4, $5, $6, $7)'
-    let values = [request.body.shopname, request.body.address, request.body.postalcode, request.body.location, request.body.image_url, request.body.category, request.params.id];
-    console.log(values);
-    pool.query(query,values,(error,result)=>{
-        if(error){
-            console.log('error',error);
-            response.send('error in saving the data in database');
-        }
-        else{
-            console.log(result.rows)
-            response.redirect('/findfood/homepage')
-        }
-    })
-
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        let query = 'insert into foodplace(shopname, address, postalcode, location, image_url, category, user_id) values($1, $2, $3, $4, $5, $6, $7)'
+        let values = [request.body.shopname, request.body.address, request.body.postalcode, request.body.location, request.body.image_url, request.body.category, request.params.id];
+        console.log(values);
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in saving the data in database');
+            }
+            else{
+                console.log(result.rows)
+                response.redirect('/findfood/homepage')
+            }
+        })
+    }
 }
 
 let profilePage = (request,response)=>{
@@ -193,11 +220,16 @@ let profilePage = (request,response)=>{
 
 let addFoodPlacePage = (request,response)=>{
     // response.send('inside addFoodPlacePage function');
-    console.log(request.params.id);
-    let data = {
-        userId : request.params.id
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
     }
+    else{
+        console.log(request.params.id);
+        let data = {
+            userId : request.params.id
+        }
     response.render('addfoodplace',data)
+    }
 }
 
 let homePage = (request,response)=>{
@@ -207,17 +239,28 @@ let homePage = (request,response)=>{
     }
     else{
         // console.log('cookies inside homepage function to view ',request.cookies);
-        let data = {
-            userId : request.cookies.user_id
-        }
-        response.render('homepage',data)
+        let query = 'select * from foodplace'
+        pool.query(query,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in checking data');
+            }
+            else{
+                // console.log(result.rows);
+                let data = {
+                    userId : request.cookies.user_id,
+                    placeData:result.rows
+                }
+                response.render('homepage',data)
+            }
+        })
     }
 }
 
 
 let loginCheck = (request,response)=>{
     // response.send('inside logincheck function');
-    console.log(request.body);
+    // console.log(request.body);
     let username = request.body.username;
     let password = sha256(request.body.password);
     let query = 'select * from users where username = $1';
@@ -228,7 +271,7 @@ let loginCheck = (request,response)=>{
             response.send('Error in checking the database');
         }
         else{
-            console.log(result.rows[0]);
+            // console.log(result.rows[0]);
             if(result.rows.length > 0){
                 if(username === result.rows[0].username && password === result.rows[0].password){
                     let userId = result.rows[0].id;
@@ -270,7 +313,7 @@ let createAccountCheck = (request,response)=>{
                     }
                     else{
                         // console.log('Done inputing the data to database');
-                        response.redirect('/findfood/login');
+                        response.redirect('/findfood');
                     }
                 })
             }
