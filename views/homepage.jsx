@@ -68,25 +68,6 @@ class Homepage extends React.Component {
                         <a className='btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <a className="nav-link btn" href="#">All food</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link btn" href="#">Halal</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link btn" href="#">Vegetarian</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className = 'text-right'>
-                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
-                            Add shop location</button>
-                    </div>
-                </nav>
                 <div className ='row'>
                     <div className='col-2'></div>
                     <div className='col-8'>
@@ -108,6 +89,25 @@ class Homepage extends React.Component {
                     </div>
                     <div className='col-2'></div>
                 </div>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <a className="nav-link btn" href="#">All food</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link btn" href="#">Halal</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link btn" href="#">Vegetarian</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className = 'text-right'>
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+                            Add shop location</button>
+                    </div>
+                </nav>
                 <div class="card">
                     <div class="card-header">
                         All foodplace
@@ -117,6 +117,11 @@ class Homepage extends React.Component {
                     </div>
                 </div>
             </div>
+            <footer>
+                <div className='card-footer bg-dark text-center'>
+
+                </div>
+            </footer>
 
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -131,27 +136,27 @@ class Homepage extends React.Component {
                             <form method="POST" action={urlFoodPost}>
                                 <div className = 'form-group'>
                                     <p>Enter shop name:</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="shopname"/>
+                                    <input className = 'form-control form-control-sm' type="text" name="shopname" placeholder='Enter shop name'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop address:</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="address"/>
+                                    <input className = 'form-control form-control-sm' type="text" name="address" placeholder='Enter shop address'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop postalcode:</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="postalcode"/>
+                                    <input className = 'form-control form-control-sm' type="text" name="postalcode" placeholder='Enter postal code'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop location: (e.g tanjung pagar, yishun, ....)</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="location"/>
+                                    <input className = 'form-control form-control-sm' type="text" name="location" placeholder='Enter location'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop photo:</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="image_url"/>
+                                    <input className = 'form-control form-control-sm' type="text" name="image_url" placeholder='Enter image link'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter category of food: (non-halal/halal/vegeterian)</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="category"/>
+                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='non-halal/halal/vegetarian'/>
                                 </div>
                                 <br />
                                 <div className='text-right'>
