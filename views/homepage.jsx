@@ -42,10 +42,11 @@ class Homepage extends React.Component {
                 <div class="card-body">
                     <h5 class="card-title">{shop.shopname}</h5>
                     <p>Location: {shop.location}</p>
-                    <p>Address: {shop.address} s({shop.postalcode})</p>
-                    <div className='text-center'>
-                        <a href = '#' className='btn btn-outline-dark'>{shop.category}</a>
-                    </div>
+                    <p>Address: {shop.address}</p>
+                    <p>s({shop.postalcode})</p>
+                </div>
+                <div class="card-footer text-center">
+                  <a href = '#' className='btn'>{shop.category}</a>
                 </div>
             </div>
         )
@@ -155,8 +156,8 @@ class Homepage extends React.Component {
                                     <input className = 'form-control form-control-sm' type="text" name="image_url" placeholder='Enter image link'/>
                                 </div>
                                 <div className='form-group'>
-                                    <p>Enter category of food: (non-halal/halal/vegeterian)</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='non-halal/halal/vegetarian'/>
+                                    <p>Enter category of food: (normal/halal/vegeterian)</p>
+                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='normal/halal/vegetarian'/>
                                 </div>
                                 <br />
                                 <div className='text-right'>

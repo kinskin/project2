@@ -7,12 +7,38 @@ const cookieParser = require('cookie-parser')
 const sha256 = require('js-sha256');
 
 // Initialise postgres client
-const configs = {
-  user: 'mohammadasshikin',
-  host: '127.0.0.1',
-  database: 'foodie',
-  port: 5432
-};
+//require the url library
+//this comes with node, so no need to yarn add
+const url = require('url');
+
+//check to see if we have this heroku environment variable
+if( process.env.DATABASE_URL ){
+
+  //we need to take apart the url so we can set the appropriate configs
+
+  const params = url.parse(process.env.DATABASE_URL);
+  const auth = params.auth.split(':');
+
+  //make the configs object
+  var configs = {
+    user: auth[0],
+    password: auth[1],
+    host: params.hostname,
+    port: params.port,
+    database: params.pathname.split('/')[1],
+    ssl: true
+  };
+
+}else{
+
+  //otherwise we are on the local network
+  var configs = {
+      user: 'mohammadasshikin',
+      host: '127.0.0.1',
+      database: 'foodie',
+      port: 5432
+    };
+}
 
 const pool = new pg.Pool(configs);
 
@@ -101,12 +127,26 @@ let showIndividualShop = (request,response)=>{
                 response.send('error in checking database');
             }
             else{
-                // console.log(result.rows[0]);
-                let data = {
-                    shop:result.rows[0]
+                console.log(result.rows[0]);
+                if(result.rows.length>0){
+                    let query2 = 'select * from users where id=$1'
+                    values = [request.cookies.user_id]
+                    pool.query(query2,values,(error, result2)=>{
+                        if(error){
+                            console.log('error',error);
+                            response.send('error in checking data');
+                        }
+                        else{
+                            console.log(result2.rows[0]);
+                            let data = {
+                                shop:result.rows[0],
+                                userData:result2.rows[0]
+                            }
+                            // console.log(data);
+                            response.render('individualpage',data);
+                        }
+                    })
                 }
-                console.log(data);
-                response.render('individualpage',data);
             }
         })
     }
@@ -131,13 +171,27 @@ let showMentionedCategory = (request,response)=>{
             }
             else{
                 // console.log(result.rows);
-                let data = {
-                    location:request.params.location,
-                    category:request.params.category,
-                    allMentionedFoodResult: result.rows
+                // console.log(request.cookies.user_id)
+                if(result.rows.length > 0){
+                    let query2='select * from users where id = $1'
+                    values = [request.cookies.user_id]
+                    pool.query(query2,values,(error,result2)=>{
+                        if(error){
+                            console.log('error',error);
+                            response.send('error in checking the database');
+                        }
+                        else{
+                            let data = {
+                                location:request.params.location,
+                                category:request.params.category,
+                                allMentionedFoodResult: result.rows,
+                                userData:result2.rows[0]
+                            }
+                            // console.log(data);
+                            response.render('category',data);
+                        }
+                    })
                 }
-                console.log(data);
-                response.render('category',data);
             }
         })
     }
@@ -410,7 +464,10 @@ app.get('/', home);
  * Listen to requests on port
  * ===================================
  */
-const PORT = 3010;
+
+
+const PORT = process.env.PORT || 3010;
+
 const server = app.listen(PORT, () => console.log('~~~ Tuning in to the waves of port '+PORT+' ~~~'));
 
 let onClose = function(){

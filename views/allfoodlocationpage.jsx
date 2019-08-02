@@ -45,10 +45,11 @@ class AllFoodLocation extends React.Component {
                 <div class="card-body">
                     <h5 class="card-title">{food.shopname}</h5>
                     <p>Location: {food.location}</p>
-                    <p>Address: {food.address} s({food.postalcode})</p>
-                    <div className='text-center'>
-                        <a href = '#' className='btn btn-outline-dark'>{food.category}</a>
-                    </div>
+                    <p>Address: {food.address}</p>
+                    <p>s({food.postalcode})</p>
+                </div>
+                <div class="card-footer text-center">
+                  <a href = '#' className='btn'>{food.category}</a>
                 </div>
             </div>
         )
@@ -67,7 +68,7 @@ class AllFoodLocation extends React.Component {
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
                     </a>
                     <div className='text-center'>
-                        <form className='form-inline'method='POST' action={urlSearchLocation}>
+                        <form className='d-flex justify-content-center form-inline'method='POST' action={urlSearchLocation}>
                             <div className='form-group'>
                                 <input className='form-control form-control-sm'type='text' name='search' placeholder='Search by location'/>
                                 <div className='text-right'>
@@ -82,31 +83,29 @@ class AllFoodLocation extends React.Component {
                         <a className='btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <a className="nav-link btn" href={urlAllFood}>All food</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link btn" href={urlHalal}>Halal</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link btn" href={urlVegetarian}>Vegetarian</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className='text-center'>
-                    </div>
-                    <div className = 'text-right'>
-                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
-                            Add shop location</button>
-                    </div>
-                </nav>
                 <div class="card text-center">
-                    <div class="card-header d-inline-block align-top sticky-top">
-                        <h5>All foodshop at {this.props.location}</h5>
-                    </div>
+                    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+                        <div className="col-4 collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav">
+                                <li className="nav-item">
+                                    <a className="nav-link btn" href={urlAllFood}>All food</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link btn" href={urlHalal}>Halal</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link btn" href={urlVegetarian}>Vegetarian</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className='col-4 text-center'>
+                            <h6>All food shop at {this.props.location}</h6>
+                        </div>
+                        <div className = 'col-4 text-right'>
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+                                Add shop location</button>
+                        </div>
+                    </nav>
                     <div class="card-body" style={allFoodStyle}>
                         <p>{mapFoodLocation}</p>
                     </div>
@@ -146,8 +145,8 @@ class AllFoodLocation extends React.Component {
                                     <input className = 'form-control form-control-sm' type="text" name="image_url" placeholder='Enter image link'/>
                                 </div>
                                 <div className='form-group'>
-                                    <p>Enter category of food: (non-halal/halal/vegeterian)</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='non-halal/halal/vegetarian'/>
+                                    <p>Enter category of food: (normal/halal/vegeterian)</p>
+                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='normal/halal/vegetarian'/>
                                 </div>
                                 <br />
                                 <div className='text-right'>
