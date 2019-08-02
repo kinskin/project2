@@ -5,6 +5,19 @@ const methodOverride = require('method-override');
 const pg = require('pg');
 const cookieParser = require('cookie-parser')
 const sha256 = require('js-sha256');
+var cloudinary = require('cloudinary');
+var multer = require('multer');
+// var upload = multer({ dest: './upload/' });
+var storage = multer.diskStorage({
+  destination: function (request, file, cb) {
+    cb(null, './upload')
+  },
+  filename: function (request, file, cb) {
+    cb(null,file.originalname)
+  }
+})
+var upload = multer({ storage: storage })
+
 
 // Initialise postgres client
 //require the url library
@@ -39,6 +52,12 @@ if( process.env.DATABASE_URL ){
       port: 5432
     };
 }
+
+cloudinary.config({
+cloud_name: 'kinskin',
+api_key: '247796894467252',
+api_secret: '7lp9R--e0hOxUv0nROCeD0OyBVc'
+});
 
 const pool = new pg.Pool(configs);
 
@@ -256,19 +275,25 @@ let foodPost = (request,response)=>{
         response.send('Please login or sign up');
     }
     else{
-        let query = 'insert into foodplace(shopname, address, postalcode, location, image_url, category, user_id) values($1, $2, $3, $4, $5, $6, $7)'
-        let values = [request.body.shopname, request.body.address, request.body.postalcode, request.body.location, request.body.image_url, request.body.category, request.params.id];
-        console.log(values);
-        pool.query(query,values,(error,result)=>{
-            if(error){
-                console.log('error',error);
-                response.send('error in saving the data in database');
-            }
-            else{
-                console.log(result.rows)
-                response.redirect('/findfood/homepage')
-            }
-        })
+        // console.log(request.file);
+        console.log(request.body);
+        cloudinary.uploader.upload(request.file.path, function(result) {
+            console.log(result.url);
+            // response.send(result);
+            let query = 'insert into foodplace(shopname, address, postalcode, location, image_url, category, user_id) values($1, $2, $3, $4, $5, $6, $7)'
+            let values = [request.body.shopname, request.body.address, request.body.postalcode, request.body.location, result.url, request.body.category, request.params.id];
+            console.log(values);
+            pool.query(query,values,(error,result)=>{
+                if(error){
+                    console.log('error',error);
+                    response.send('error in saving the data in database');
+                }
+                else{
+                    console.log(result.rows)
+                    response.redirect('/findfood/homepage')
+                }
+            })
+        });
     }
 }
 
@@ -438,7 +463,7 @@ app.get('/findfood/search/:location', showAllFood);
 
 app.post('/findfood/search', searchByLocation);
 
-app.post('/findfood/foodpost/:id', foodPost);
+app.post('/findfood/foodpost/:id', upload.single('image_url'), foodPost);
 
 app.get('/findfood/signout',logout);
 

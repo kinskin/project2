@@ -118,11 +118,6 @@ class Homepage extends React.Component {
                     </div>
                 </div>
             </div>
-            <footer>
-                <div className='card-footer bg-dark text-center'>
-
-                </div>
-            </footer>
 
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -134,7 +129,7 @@ class Homepage extends React.Component {
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action={urlFoodPost}>
+                            <form encType="multipart/form-data" method="POST" action={urlFoodPost}>
                                 <div className = 'form-group'>
                                     <p>Enter shop name:</p>
                                     <input className = 'form-control form-control-sm' type="text" name="shopname" placeholder='Enter shop name'/>
@@ -153,7 +148,7 @@ class Homepage extends React.Component {
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop photo:</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="image_url" placeholder='Enter image link'/>
+                                    <input className='btn btn-outline-success'type="file" name='image_url'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter category of food: (normal/halal/vegeterian)</p>
