@@ -1,16 +1,14 @@
 var React = require("react");
 
-class AllFoodLocation extends React.Component {
+class AllCategorized extends React.Component {
   render() {
-    let urlLogout = '/findfood/signout'
-    let urlHome ='/findfood/homepage'
-    let urlHalal = '/findfood/search/'+this.props.location+'/halal';
-    let urlVegetarian = '/findfood/search/'+this.props.location+'/vegetarian';
-    let urlSearchLocation ='/findfood/search'
-    let urlAllFood = '/findfood/search/'+this.props.location;
     let urlProfile = '/findfood/profile/'+this.props.userId;
-    var urlFoodPost = '/findfood/foodpost/'+this.props.userId;
-
+    let urlLogout = '/findfood/signout'
+    let urlSearchLocation ='/findfood/search'
+    let urlAddNewPlace = '/findfood/addfoodplace/'+this.props.userId;
+    let urlFoodPost = '/findfood/foodpost/'+this.props.userId;
+    let urlHalalCategory = '/findfood/category/halal'
+    let urlVegeterianCategory = '/findfood/category/vegetarian'
     let navStyle = {
         margin:'10px 0 0 0'
     }
@@ -35,21 +33,21 @@ class AllFoodLocation extends React.Component {
         weight:'300px'
     }
 
-    let mapFoodLocation = this.props.allFoodAtLocation.map(food=>{
-        let urlIndividualShop = '/findfood/individual/'+food.id;
+    let mapFoodPlace = this.props.foodShop.map(allShop=>{
+        let urlIndividualShop = '/findfood/individual/'+allShop.id;
         return(
             <div class="card" style={shopStyle}>
                 <a href={urlIndividualShop}>
-                    <img style={shopImageCategory} class="card-img-top" src={food.image_url} />
+                    <img style={shopImageCategory} class="card-img-top" src={allShop.image_url} />
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title">{food.shopname}</h5>
-                    <p>Location: {food.location}</p>
-                    <p>Address: {food.address}</p>
-                    <p>s({food.postalcode})</p>
+                    <h5 class="card-title">{allShop.shopname}</h5>
+                    <p>Location: {allShop.location}</p>
+                    <p>Address: {allShop.address}</p>
+                    <p>s({allShop.postalcode})</p>
                 </div>
                 <div class="card-footer text-center">
-                  <a href = '#' className='btn'>{food.category}</a>
+                  <a href = '#' className='btn'>{allShop.category}</a>
                 </div>
             </div>
         )
@@ -59,57 +57,66 @@ class AllFoodLocation extends React.Component {
       <html>
         <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous"/>
-            <link rel="stylesheet" href="/allfoodlocation.css"/>
+            <link rel="stylesheet" href="/homepage.css"/>
         </head>
         <body>
             <div className='container'>
                 <nav style = {navStyle} className="navbar navbar-light bg-light">
-                    <a className="navbar-brand mb-0 h1" href={urlHome}>
+                    <a className="navbar-brand mb-0 h1" href="#">
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
                     </a>
-                    <div className='text-center'>
-                        <form className='d-flex justify-content-center form-inline'method='POST' action={urlSearchLocation}>
-                            <div className='form-group'>
-                                <input className='form-control form-control-sm'type='text' name='search' placeholder='Search by location'/>
-                                <div className='text-right'>
-                                    <button className = 'btn btn-sm d-inline-block' type='submit'>Search</button>
-                                </div>
-                            </div>
-                        </form>
-                        <small id="emailHelp" class="form-text text-muted">Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
-                    </div>
                     <div className = 'text-right'>
                         <a className='btn' href={urlProfile}>{this.props.userData.profile_name}</a>
                         <a className='btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
-                <div class="card text-center">
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-                        <div className="col-4 collapse navbar-collapse" id="navbarNav">
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                    <a className="nav-link btn" href={urlAllFood}>All food</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link btn" href={urlHalal}>Halal</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link btn" href={urlVegetarian}>Vegetarian</a>
-                                </li>
-                            </ul>
+                <div className ='row'>
+                    <div className='col-2'></div>
+                    <div className='col-8'>
+                        <div class="card bg-dark text-white" id="test">
+                            <img src="https://www.nea.gov.sg/images/default-source/our-serivces/hawker-management/chomp-chomp-food-centre.jpg" class="card-img"/>
+                            <div class="card-img-overlay">
+                                <form method='POST' action={urlSearchLocation}>
+                                    <div className='form-group'>
+                                        <input className='form-control'type='text' name='search' placeholder='Search by location'/>
+                                        <small>Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
+                                        <br />
+                                        <div className='text-right'>
+                                            <button className = 'btn btn-primary' type='submit'>Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div className='col-4 text-center'>
-                            <h6>All food shop at {this.props.location}</h6>
-                        </div>
-                        <div className = 'col-4 text-right'>
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
-                                Add shop location</button>
-                        </div>
-                    </nav>
-                    <div class="card-body" style={allFoodStyle}>
-                        <p>{mapFoodLocation}</p>
                     </div>
-                    <div class="card-footer text-muted"></div>
+                    <div className='col-2'></div>
+                </div>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <a className="nav-link btn" href="#">All food</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link btn" href={urlHalalCategory}>Halal</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link btn" href={urlVegeterianCategory}>Vegetarian</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className = 'text-right'>
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+                            Add shop location</button>
+                    </div>
+                </nav>
+                <div class="card">
+                    <div class="card-header">
+                        All foodplace
+                    </div>
+                    <div class="card-body" style={allFoodStyle}>
+                        <p>{mapFoodPlace}</p>
+                    </div>
                 </div>
             </div>
 
@@ -123,7 +130,7 @@ class AllFoodLocation extends React.Component {
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action={urlFoodPost}>
+                            <form encType="multipart/form-data" method="POST" action={urlFoodPost}>
                                 <div className = 'form-group'>
                                     <p>Enter shop name:</p>
                                     <input className = 'form-control form-control-sm' type="text" name="shopname" placeholder='Enter shop name'/>
@@ -138,7 +145,7 @@ class AllFoodLocation extends React.Component {
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop location: (e.g tanjung pagar, yishun, ....)</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="location" readOnly='readOnly'defaultValue={this.props.location}/>
+                                    <input className = 'form-control form-control-sm' type="text" name="location" placeholder='Enter location'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop photo:</p>
@@ -160,7 +167,6 @@ class AllFoodLocation extends React.Component {
                     </div>
                 </div>
             </div>
-
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossOrigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossOrigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossOrigin="anonymous"></script>
@@ -170,4 +176,4 @@ class AllFoodLocation extends React.Component {
   }
 }
 
-module.exports = AllFoodLocation;
+module.exports = AllCategorized;

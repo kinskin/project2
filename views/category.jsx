@@ -142,7 +142,7 @@ class Category extends React.Component {
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop photo:</p>
-                                    <input className='btn btn-outline-success'type="file" name='image_url'/>
+                                    <input className='btn btn-sm'type="file" name='image_url'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter category of food: (normal/halal/vegeterian)</p>

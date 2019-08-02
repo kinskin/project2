@@ -106,6 +106,48 @@ let logout = (request,response)=>{
     response.redirect('/findfood');
 }
 
+
+let showCategory = (request,response)=>{
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up')
+    }
+    else{
+        console.log(request.params.categoryname);
+    // response.send('inside the show category function');
+        let query = 'select * from foodplace where category=$1';
+        let values = [request.params.categoryname]
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in checking data');
+            }
+            else{
+                // console.log(result.rows);
+                if(result.rows.length > 0){
+                    let query2 = 'select * from users where id = $1';
+                    values = [request.cookies.user_id];
+                    pool.query(query2,values,(error,result2)=>{
+                        if(error){
+                            console.log('error',error);
+                            response.send('error in checking data');
+                        }
+                        else{
+                            let data={
+                                foodShop:result.rows,
+                                userData:result2.rows[0],
+                                userId:request.cookies.user_id
+                            }
+                            // console.log(data);
+                            response.render('allcategorized',data);
+                        }
+                    })
+                }
+            }
+        })
+    }
+}
+
+
 let postReview = (request,response)=>{
     if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
         response.send('Please login or sign up');
@@ -452,6 +494,8 @@ let home = (request,response)=>{
  * Routes
  * ===================================
  */
+
+app.get('/findfood/category/:categoryname', showCategory);
 
 app.post('/findfood/review/:shop_id/:user_id', postReview);
 

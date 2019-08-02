@@ -6,7 +6,9 @@ class Homepage extends React.Component {
     let urlLogout = '/findfood/signout'
     let urlSearchLocation ='/findfood/search'
     let urlAddNewPlace = '/findfood/addfoodplace/'+this.props.userId;
-    var urlFoodPost = '/findfood/foodpost/'+this.props.userId;
+    let urlFoodPost = '/findfood/foodpost/'+this.props.userId;
+    let urlHalalCategory = '/findfood/category/halal'
+    let urlVegeterianCategory = '/findfood/category/vegetarian'
     let navStyle = {
         margin:'10px 0 0 0'
     }
@@ -97,10 +99,10 @@ class Homepage extends React.Component {
                                 <a className="nav-link btn" href="#">All food</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link btn" href="#">Halal</a>
+                                <a className="nav-link btn" href={urlHalalCategory}>Halal</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link btn" href="#">Vegetarian</a>
+                                <a className="nav-link btn" href={urlVegeterianCategory}>Vegetarian</a>
                             </li>
                         </ul>
                     </div>
@@ -148,7 +150,7 @@ class Homepage extends React.Component {
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter shop photo:</p>
-                                    <input className='btn btn-outline-success'type="file" name='image_url'/>
+                                    <input className='btn btn-sm'type="file" name='image_url'/>
                                 </div>
                                 <div className='form-group'>
                                     <p>Enter category of food: (normal/halal/vegeterian)</p>
