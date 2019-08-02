@@ -149,20 +149,36 @@ let showAllFood = (request,response)=>{
     }
     else{
         // response.send('inside show all food function');
-        console.log(request.params.location);
+        // console.log(request.params.location);
+        // console.log(request.cookies.user_id);
         let query = 'select * from foodplace where location = $1'
         let values = [request.params.location];
         pool.query(query,values,(error,result)=>{
             if(error){
                 console.log('error', error);
+                response.send('error in fetching data');
             }
             else{
-                console.log(result.rows);
-                let data = {
-                    location: request.params.location,
-                    allFoodAtLocation : result.rows
+                // console.log(result.rows.length);
+                if(result.rows.length > 0){
+                    let query2 = 'select * from users where id=$1';
+                    values = [request.cookies.user_id];
+                    pool.query(query2,values,(error,result2)=>{
+                        if(error){
+                            console.log('error',error);
+                            response.send('error in fetching data')
+                        }
+                        else{
+                            console.log(result2.rows[0]);
+                            let data = {
+                                location: request.params.location,
+                                allFoodAtLocation : result.rows,
+                                userData:result2.rows[0]
+                            }
+                            response.render('allfoodlocationpage',data);
+                        }
+                    })
                 }
-                response.render('allfoodlocationpage',data);
             }
         })
     }

@@ -76,8 +76,8 @@ class Homepage extends React.Component {
                             <div class="card-img-overlay">
                                 <form method='POST' action={urlSearchLocation}>
                                     <div className='form-group'>
-                                        <p>Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</p>
                                         <input className='form-control'type='text' name='search' placeholder='Search by location'/>
+                                        <small>Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
                                         <br />
                                         <div className='text-right'>
                                             <button className = 'btn btn-primary' type='submit'>Search</button>
