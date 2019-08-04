@@ -9,6 +9,7 @@ class AllCategorized extends React.Component {
     let urlFoodPost = '/findfood/foodpost/'+this.props.userId;
     let urlHalalCategory = '/findfood/category/halal'
     let urlVegeterianCategory = '/findfood/category/vegetarian'
+    let urlHome ='/findfood/homepage'
     let navStyle = {
         margin:'10px 0 0 0'
     }
@@ -34,7 +35,9 @@ class AllCategorized extends React.Component {
     }
 
     let mapFoodPlace = this.props.foodShop.map(allShop=>{
-        let urlIndividualShop = '/findfood/individual/'+allShop.id;
+        let urlIndividualShop = '/findfood/individual/'+allShop.foodplace_id;
+        let urlSeacrhByLocation = '/findfood/search'+allShop.location;
+        let urlSearchByCategory = '/findfood/category'+allShop.category;
         return(
             <div class="card" style={shopStyle}>
                 <a href={urlIndividualShop}>
@@ -46,8 +49,9 @@ class AllCategorized extends React.Component {
                     <p>Address: {allShop.address}</p>
                     <p>s({allShop.postalcode})</p>
                 </div>
-                <div class="card-footer text-center">
-                  <a href = '#' className='btn'>{allShop.category}</a>
+                <div class="card-footer">
+                    <a className ='btn btn-sm' href={urlSeacrhByLocation}>#{allShop.location}</a>
+                    <a className='btn btn-sm' href={urlSearchByCategory}>#{allShop.category}</a>
                 </div>
             </div>
         )
@@ -60,9 +64,9 @@ class AllCategorized extends React.Component {
             <link rel="stylesheet" href="/homepage.css"/>
         </head>
         <body>
-            <div className='container'>
+            <div className='container-fluid'>
                 <nav style = {navStyle} className="navbar navbar-light bg-light">
-                    <a className="navbar-brand mb-0 h1" href="#">
+                    <a className="navbar-brand mb-0 h1" href={urlHome}>
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
                     </a>
                     <div className = 'text-right'>
@@ -71,8 +75,8 @@ class AllCategorized extends React.Component {
                     </div>
                 </nav>
                 <div className ='row'>
-                    <div className='col-2'></div>
-                    <div className='col-8'>
+                    <div className='col-3'></div>
+                    <div className='col-6'>
                         <div class="card bg-dark text-white" id="test">
                             <img src="https://www.nea.gov.sg/images/default-source/our-serivces/hawker-management/chomp-chomp-food-centre.jpg" class="card-img"/>
                             <div class="card-img-overlay">
@@ -89,13 +93,13 @@ class AllCategorized extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className='col-2'></div>
+                    <div className='col-3'></div>
                 </div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link btn" href="#">All food</a>
+                                <a className="nav-link btn" href={urlHome}>All food</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link btn" href={urlHalalCategory}>Halal</a>
@@ -111,8 +115,7 @@ class AllCategorized extends React.Component {
                     </div>
                 </nav>
                 <div class="card">
-                    <div class="card-header">
-                        All foodplace
+                    <div class="card-header"> All {this.props.category} food places
                     </div>
                     <div class="card-body" style={allFoodStyle}>
                         <p>{mapFoodPlace}</p>

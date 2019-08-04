@@ -36,7 +36,9 @@ class AllFoodLocation extends React.Component {
     }
 
     let mapFoodLocation = this.props.allFoodAtLocation.map(food=>{
-        let urlIndividualShop = '/findfood/individual/'+food.id;
+        let urlIndividualShop = '/findfood/individual/'+food.foodplace_id;
+        let urlSearchByLocation = '/findfood/search/'+food.location;
+        let urlSearchByCategory = '/findfood/category/'+food.category;
         return(
             <div class="card" style={shopStyle}>
                 <a href={urlIndividualShop}>
@@ -48,8 +50,9 @@ class AllFoodLocation extends React.Component {
                     <p>Address: {food.address}</p>
                     <p>s({food.postalcode})</p>
                 </div>
-                <div class="card-footer text-center">
-                  <a href = '#' className='btn'>{food.category}</a>
+                <div class="card-footer">
+                  <a className='btn btn-sm' href = {urlSearchByCategory}>#{food.category}</a>
+                  <a className='btn btn-sm' href={urlSearchByLocation}>#{food.location}</a>
                 </div>
             </div>
         )
@@ -62,7 +65,7 @@ class AllFoodLocation extends React.Component {
             <link rel="stylesheet" href="/allfoodlocation.css"/>
         </head>
         <body>
-            <div className='container'>
+            <div className='container-fluid'>
                 <nav style = {navStyle} className="navbar navbar-light bg-light">
                     <a className="navbar-brand mb-0 h1" href={urlHome}>
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
@@ -103,13 +106,13 @@ class AllFoodLocation extends React.Component {
                         </div>
                         <div className = 'col-4 text-right'>
                             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
-                                Add shop location</button>
+                            Add shop location</button>
                         </div>
                     </nav>
-                    <div class="card-body" style={allFoodStyle}>
+                    <div className="card-body" style={allFoodStyle}>
                         <p>{mapFoodLocation}</p>
                     </div>
-                    <div class="card-footer text-muted"></div>
+                    <div className="card-footer text-muted"></div>
                 </div>
             </div>
 
@@ -160,6 +163,7 @@ class AllFoodLocation extends React.Component {
                     </div>
                 </div>
             </div>
+
 
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossOrigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossOrigin="anonymous"></script>

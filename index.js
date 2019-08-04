@@ -135,7 +135,8 @@ let showCategory = (request,response)=>{
                             let data={
                                 foodShop:result.rows,
                                 userData:result2.rows[0],
-                                userId:request.cookies.user_id
+                                userId:request.cookies.user_id,
+                                category:request.params.categoryname
                             }
                             // console.log(data);
                             response.render('allcategorized',data);
@@ -154,9 +155,10 @@ let postReview = (request,response)=>{
     }
     else{
         // response.send('inside post review function');
-        console.log('this is the shop_id: ',request.params.shop_id)
-        console.log('this is the user_id: ',request.params.user_id)
-        console.log(request.body);
+        // console.log('this is the shop_id: ',request.params.shop_id)
+        // console.log('this is the user_id: ',request.params.user_id)
+        // console.log(request.body.rating);
+        // console.log(request.body.comment);
         let query = 'insert into reviews(rating, comment, shop_id, user_id) values($1, $2, $3, $4)';
         let values = [request.body.rating, request.body.comment,request.params.shop_id,request.params.user_id]
         console.log(values);
@@ -180,7 +182,7 @@ let showIndividualShop = (request,response)=>{
     else{
         // response.send('inside showIndividualShop function');
         console.log(request.params.id);
-        let query = 'select * from foodplace where id = $1';
+        let query = 'select * from foodplace where foodplace_id = $1';
         let values = [request.params.id];
         pool.query(query,values,(error,result)=>{
             if(error){
@@ -190,7 +192,7 @@ let showIndividualShop = (request,response)=>{
             else{
                 console.log(result.rows[0]);
                 if(result.rows.length>0){
-                    let query2 = 'select * from users where id=$1'
+                    let query2 = 'select * from users where id = $1'
                     values = [request.cookies.user_id]
                     pool.query(query2,values,(error, result2)=>{
                         if(error){
@@ -199,12 +201,26 @@ let showIndividualShop = (request,response)=>{
                         }
                         else{
                             console.log(result2.rows[0]);
-                            let data = {
-                                shop:result.rows[0],
-                                userData:result2.rows[0]
+                            if(result2.rows.length>0){
+                                let query3 = 'SELECT reviews.review_id,reviews.rating, reviews.comment, users.profile_name FROM reviews INNER JOIN users ON (users.id = reviews.user_id) where shop_id = $1 order by reviews.review_id desc';
+                                values = [request.params.id];
+                                pool.query(query3,values,(error,result3)=>{
+                                    if(error){
+                                        console.log('error',error);
+                                        response.send('error in checking database');
+                                    }
+                                    else{
+                                        console.log(result3.rows)
+                                        let data = {
+                                            shop:result.rows[0],
+                                            userData:result2.rows[0],
+                                            shopReview:result3.rows
+                                        }
+                                        console.log(data);
+                                        response.render('individualpage',data);
+                                    }
+                                })
                             }
-                            // console.log(data);
-                            response.render('individualpage',data);
                         }
                     })
                 }
@@ -341,18 +357,81 @@ let foodPost = (request,response)=>{
 
 let profilePage = (request,response)=>{
     // console.log('profile page of user with userId: ',request.params.id);
-    console.log('cookies in profilePage',request.cookies);
+    // console.log('cookies in profilePage',request.cookies);
     if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
         response.send('Please login or sign up');
     }
     else{
-        // response.send('inside profile page function');
-        let data = {
-            userId : request.cookies.user_id
-        }
-        response.render('profilepage',data);
+        let query = 'select * from users where id = $1';
+        let values = [request.cookies.user_id];
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error)
+                response.send('error in checking database');
+            }
+            else{
+                // console.log(result.rows[0]);
+                if(result.rows.length>0){
+                    let query2 = 'select reviews. review_id, reviews.rating, reviews.comment,foodplace.foodplace_id,foodplace.shopname,foodplace.image_url from reviews inner join foodplace on(foodplace.foodplace_id = reviews.shop_id) where reviews.user_id = $1'
+                    pool.query(query2,values,(error,result2)=>{
+                        if(error){
+                            console.log('error',error);
+                            response.send('error in checking database');
+                        }
+                        else{
+                            // console.log(result2.rows)
+                            if(result2.rows.length>0){
+                                let query3 = 'select users.id, foodplace.foodplace_id, foodplace.shopname, foodplace.address, foodplace.postalcode, foodplace.location, foodplace.category, foodplace.image_url from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1';
+                                pool.query(query3,values,(error,result3)=>{
+                                    if(error){
+                                        console.log('error',error)
+                                        response.send('error checking the database');
+                                    }
+                                    else{
+                                        // console.log(result3.rows);
+                                        if(result3.rows.length>0){
+                                            let query4 ='select count(*) from users inner join reviews on (users.id = reviews.user_id) where users.id = $1';
+                                            pool.query(query4,values,(error,result4)=>{
+                                                if(error){
+                                                    console.log('error',error)
+                                                    response.send('error in checking database');
+                                                }
+                                                else{
+                                                    // console.log(result4.rows[0]);
+                                                    if(result4.rows.length>0){
+                                                        let query5 = 'select count(*) from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
+                                                        pool.query(query5,values,(error,result5)=>{
+                                                            if(error){
+                                                                console.log('error',error);
+                                                                response.send('error in checking database');
+                                                            }
+                                                            else{
+                                                                // console.log(result5.rows[0]);
+                                                                let data = {
+                                                                    userId:request.cookies.user_id,
+                                                                    userData:result.rows[0],
+                                                                    userReviewData:result2.rows,
+                                                                    userFoodPlacePost:result3.rows,
+                                                                    userTotalReviewNum:result4.rows[0],
+                                                                    userTotalFoodPlacePost:result5.rows[0]
+                                                                }
+                                                                console.log(data);
+                                                                response.render('profilepage',data);
+                                                            }
+                                                        })
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+        })
     }
-
 }
 
 let addFoodPlacePage = (request,response)=>{

@@ -35,11 +35,13 @@ class Homepage extends React.Component {
 
 
     let mapFoodPlace = this.props.placeData.map(shop=>{
-        let urlIndividualShop = '/findfood/individual/'+shop.id;
+        let urlIndividualShop = '/findfood/individual/'+shop.foodplace_id;
+        let urlSearchByLocation = '/findfood/search/'+shop.location;
+        let urlSearchByCategory = '/findfood/category/'+shop.category;
         return(
             <div class="card" style={shopStyle}>
                 <a href={urlIndividualShop}>
-                    <img style={shopImageCategory} class="card-img-top" src={shop.image_url} />
+                    <img style={shopImageCategory} class="card-img-top" src={shop.image_url}/>
                 </a>
                 <div class="card-body">
                     <h5 class="card-title">{shop.shopname}</h5>
@@ -47,8 +49,9 @@ class Homepage extends React.Component {
                     <p>Address: {shop.address}</p>
                     <p>s({shop.postalcode})</p>
                 </div>
-                <div class="card-footer text-center">
-                  <a href = '#' className='btn'>{shop.category}</a>
+                <div class="card-footer">
+                  <a className='btn btn-sm' href = {urlSearchByCategory}>#{shop.category}</a>
+                  <a className='btn btn-sm' href ={urlSearchByLocation}>#{shop.location}</a>
                 </div>
             </div>
         )
@@ -61,7 +64,7 @@ class Homepage extends React.Component {
             <link rel="stylesheet" href="/homepage.css"/>
         </head>
         <body>
-            <div className='container'>
+            <div className='container-fluid'>
                 <nav style = {navStyle} className="navbar navbar-light bg-light">
                     <a className="navbar-brand mb-0 h1" href="#">
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
@@ -72,8 +75,8 @@ class Homepage extends React.Component {
                     </div>
                 </nav>
                 <div className ='row'>
-                    <div className='col-2'></div>
-                    <div className='col-8'>
+                    <div className='col-3'></div>
+                    <div className='col-6'>
                         <div class="card bg-dark text-white" id="test">
                             <img src="https://www.nea.gov.sg/images/default-source/our-serivces/hawker-management/chomp-chomp-food-centre.jpg" class="card-img"/>
                             <div class="card-img-overlay">
@@ -90,7 +93,7 @@ class Homepage extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className='col-2'></div>
+                    <div className='col-3'></div>
                 </div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                     <div className="collapse navbar-collapse" id="navbarNav">

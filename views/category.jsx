@@ -37,19 +37,22 @@ class Category extends React.Component {
 
     let mapFoodLocation = this.props.allMentionedFoodResult.map(food=>{
         let urlIndividualShop = '/findfood/individual/'+food.id;
+        let urlSearchByLocation = '/findfood/search/'+food.location;
+        let urlSearchByCategory = '/findfood/category/'+food.category;
         return(
-            <div class="card" style={shopStyle}>
+            <div className="card" style={shopStyle}>
                 <a href={urlIndividualShop}>
-                    <img style={shopImageCategory} class="card-img-top" src={food.image_url} />
+                    <img style={shopImageCategory} className="card-img-top" src={food.image_url} />
                 </a>
-                <div class="card-body">
-                    <h5 class="card-title">{food.shopname}</h5>
+                <div className="card-body">
+                    <h5 className="card-title">{food.shopname}</h5>
                     <p>Location: {food.location}</p>
                     <p>Address: {food.address}</p>
                     <p>s({food.postalcode})</p>
                 </div>
-                <div class="card-footer text-center">
-                  <a href = '#' className='btn'>{food.category}</a>
+                <div className="card-footer">
+                    <a className='btn btn-sm' href={urlSearchByCategory}>#{food.category}</a>
+                    <a className='btn btn-sm' href={urlSearchByCategory}>#{food.location}</a>
                 </div>
             </div>
         )
@@ -62,7 +65,7 @@ class Category extends React.Component {
             <link rel="stylesheet" href="/category.css"/>
         </head>
         <body>
-            <div className = 'container'>
+            <div className = 'container-fluid'>
                 <nav style = {navStyle} className="navbar navbar-light bg-light">
                     <a className="navbar-brand mb-0 h1" href={urlHome}>
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood

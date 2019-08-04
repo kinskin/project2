@@ -7,9 +7,9 @@ class Individual extends React.Component {
     let urlHalal = '/findfood/search/'+this.props.shop.location+'/halal';
     let urlVegetarian = '/findfood/search/'+this.props.shop.location+'/vegetarian';
     let urlAllFood = '/findfood/search/'+this.props.shop.location;
-    let urlPostReview = '/findfood/review/'+this.props.shop.id+'/'+this.props.shop.userId;
+    let urlPostReview = '/findfood/review/'+this.props.shop.foodplace_id+'/'+this.props.userData.id;
     let urlSearchLocation ='/findfood/search'
-    let urlProfile = '/findfood/profile/'+this.props.userId;
+    let urlProfile = '/findfood/profile/'+this.props.userData.id;
 
     let navStyle = {
         margin:'10px 0 0 0'
@@ -18,11 +18,6 @@ class Individual extends React.Component {
     let image = {
         height: '400px',
         widht: '600px'
-    }
-
-    let shopStyle = {
-        width:'18rem',
-        margin:'0 auto'
     }
 
     let allFoodStyle = {
@@ -39,6 +34,34 @@ class Individual extends React.Component {
         width:'18rem',
         margin:'10px auto'
     }
+
+    let shopStyle = {
+        width:'18rem',
+        margin:'0 auto'
+    }
+
+    let reviewStyle = {
+        margin : '10px auto'
+    }
+
+    let mapReviews = this.props.shopReview.map(review=>{
+        return(
+            <div className="card text-left" style={reviewStyle}>
+                <div className="card-body">
+                    <div className='row'>
+                        <div className='col-3'>
+                            <h5 className="card-title">{review.profile_name}</h5>
+                        </div>
+                        <div className='col-9'>
+                            <p>Rating: {review.rating}/5</p>
+                            <p>Comment: {review.comment}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    })
+
     return (
       <html>
         <head>
@@ -46,7 +69,7 @@ class Individual extends React.Component {
             <link rel="stylesheet" href="/individualpage.css"/>
         </head>
         <body>
-            <div className='container'>
+            <div className='container-fluid'>
                 <nav style = {navStyle} className="navbar navbar-light bg-light">
                     <a className="navbar-brand mb-0 h1" href={urlHome}>
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
@@ -90,7 +113,7 @@ class Individual extends React.Component {
                         <div className='row'>
                             <div className='col-3'></div>
                             <div className='col-6'>
-                                <img className="card-img-top" src={this.props.shop.image_url}/>
+                                <img style={image}className="card-img-top" src={this.props.shop.image_url}/>
                             </div>
                             <div className='col-3'></div>
                         </div>
@@ -104,9 +127,6 @@ class Individual extends React.Component {
                                             <p>Address: {this.props.shop.address}</p>
                                             <p>s({this.props.shop.postalcode})</p>
                                         </div>
-                                        <div className='card-footer'>
-                                             <a href="#" className="btn">{this.props.shop.category}</a>
-                                        </div>
                                     </div>
                                     <div className="card" style={postReview}>
                                             <div className='card-header'>Post review</div>
@@ -117,29 +137,29 @@ class Individual extends React.Component {
                                                             <p className='card-title'>Rating</p>
                                                             <div className="form-check-inline">
                                                                 <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="optradio" value='1'/>1</label>
+                                                                    <input type="radio" className="form-check-input" name="rating" value='1'/>1</label>
                                                             </div>
                                                             <div class="form-check-inline">
                                                                 <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="optradio" value='2'/>2</label>
+                                                                    <input type="radio" className="form-check-input" name="rating" value='2'/>2</label>
                                                             </div>
                                                             <div class="form-check-inline disabled">
                                                                 <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="optradio" value='3'/>3</label>
+                                                                    <input type="radio" className="form-check-input" name="rating" value='3'/>3</label>
                                                             </div>
                                                             <div class="form-check-inline disabled">
                                                                 <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="optradio" value='4'/>4</label>
+                                                                    <input type="radio" className="form-check-input" name="rating" value='4'/>4</label>
                                                             </div>
                                                             <div class="form-check-inline disabled">
                                                                 <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="optradio" value='5'/>5</label>
+                                                                    <input type="radio" className="form-check-input" name="rating" value='5'/>5</label>
                                                             </div>
                                                             <br />
                                                             <br />
                                                         <p className="card-title">Comments</p>
                                                         </div>
-                                                        <textarea type="text" name="tweet" className="form-control" id="exampleFormControlTextarea1" rows="3"/>
+                                                        <textarea type="text" name="comment" className="form-control" id="exampleFormControlTextarea1" rows="3"/>
                                                     </div>
                                                     <div className="text-right">
                                                         <button className="btn btn-outline-danger my-2 my-sm-0" type="submit">Post</button>
@@ -152,7 +172,7 @@ class Individual extends React.Component {
                                     <div className="card">
                                         <div className="card-header">{this.props.shop.shopname} Reviews</div>
                                         <div className='card-body'>
-                                        <p>mapping for all reviews</p>
+                                        <p>{mapReviews}</p>
                                         </div>
                                     </div>
                                 </div>

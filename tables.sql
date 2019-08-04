@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS foodplace (
-    id SERIAL PRIMARY KEY,
+    foodplace_id SERIAL PRIMARY KEY,
     shopname TEXT,
     address TEXT,
     postalcode TEXT,
