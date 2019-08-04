@@ -74,26 +74,51 @@ class Homepage extends React.Component {
                         <a className='btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
-                <div className ='row'>
-                    <div className='col-3'></div>
-                    <div className='col-6'>
-                        <div class="card bg-dark text-white" id="test">
-                            <img src="https://www.nea.gov.sg/images/default-source/our-serivces/hawker-management/chomp-chomp-food-centre.jpg" class="card-img"/>
-                            <div class="card-img-overlay">
-                                <form method='POST' action={urlSearchLocation}>
-                                    <div className='form-group'>
-                                        <input className='form-control'type='text' name='search' placeholder='Search by location'/>
-                                        <small>Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
-                                        <br />
-                                        <div className='text-right'>
-                                            <button className = 'btn btn-primary' type='submit'>Search</button>
+                <div id='searchrow'>
+                    <div className ='row'>
+                        <div className='col-6'>
+                            <div class="card bg-dark text-white" id="test">
+                                <img src="https://www.nea.gov.sg/images/default-source/our-serivces/hawker-management/chomp-chomp-food-centre.jpg" class="card-img"/>
+                                <div class="card-img-overlay">
+                                    <form method='POST' action={urlSearchLocation}>
+                                        <div className='form-group'>
+                                            <input className='form-control'type='text' name='search' placeholder='Search by location'/>
+                                            <small>Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
+                                            <br />
+                                            <div className='text-right'>
+                                                <button className = 'btn btn-primary' type='submit'>Search</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col-6'>
+                            <div className="card bg-dark text-white">
+                                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                                    <div className="carousel-inner">
+                                        <div className="carousel-item active">
+                                            <div className="carousel-img carousel-img-1"></div>
+                                        </div>
+                                        <div className="carousel-item">
+                                            <div className="carousel-img carousel-img-2"></div>
+                                        </div>
+                                        <div className="carousel-item">
+                                            <div className="carousel-img carousel-img-3"></div>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+                                <div className="card-img-overlay text-center">
+                                    <h2 className="card-title">Top Picks for the Month</h2>
+                                    <br />
+                                    <h4 className="card-text">Don't know where to find food?</h4>
+                                    <h4 className='card-text'>Use FIND FOOD</h4>
+                                    <br />
+                                    <p className='card-text'>Put your own food location to help other when in need of food</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className='col-3'></div>
                 </div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                     <div className="collapse navbar-collapse" id="navbarNav">
@@ -118,8 +143,10 @@ class Homepage extends React.Component {
                     <div class="card-header">
                         All foodplace
                     </div>
-                    <div class="card-body" style={allFoodStyle}>
-                        <p>{mapFoodPlace}</p>
+                    <div className="foodCard">
+                        <div className="card-body" style={allFoodStyle}>
+                            <p>{mapFoodPlace}</p>
+                        </div>
                     </div>
                 </div>
             </div>

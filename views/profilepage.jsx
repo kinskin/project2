@@ -6,6 +6,8 @@ class ProfilePage extends React.Component {
     let urlLogout = '/findfood/signout';
     let urlSearchLocation ='/findfood/search';
     let urlProfile = '/findfood/profile/'+this.props.userId;
+    let urlShowAllFoodPlace = '/findfood/showallfoodpost/'+this.props.userId;
+    let urlShowAllReviews = '/findfood/showallreviews/'+this.props.userId;
 
     let navStyle = {
         margin:'10px 0 0 0'
@@ -136,7 +138,7 @@ class ProfilePage extends React.Component {
                                     </div>
                                 </div>
                                 <div className='card-footer text-right'>
-                                    <a href='#'>Show all your food places post</a>
+                                    <a href={urlShowAllFoodPlace}>Show all your food places post</a>
                                 </div>
                             </div>
                             <div className='card'>
@@ -192,19 +194,13 @@ class ProfilePage extends React.Component {
                                     </div>
                                 </div>
                                  <div className='card-footer text-right'>
-                                    <a href='#'>Show all your reviews post</a>
+                                    <a href={urlShowAllReviews}>Show all your reviews post</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <h1>Profile page</h1>
-            <a href={urlHome}>Homepage</a>
-            <br />
-            <a href={urlLogout}>Sign out</a>
-            <br />
-            <p>profile description to be input later</p>
 
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossOrigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossOrigin="anonymous"></script>

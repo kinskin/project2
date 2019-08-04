@@ -1,0 +1,33 @@
+.foodCard {
+	background: url("https://as1.ftcdn.net/jpg/02/29/50/48/500_F_229504866_PZIwssPLycSXfzic6DveysCFSOkY1flH.jpg");
+	background-size: cover;
+	}
+
+	.carousel-img {
+	width:100%;
+	background-size: cover;
+	background-position: center;
+}
+
+.carousel-img:after {
+	content: "";
+	background-color: rgba(0,0,0,0.6);
+	display: block;
+	padding-bottom: 65.8888888%;
+}
+
+.carousel-img-1 {
+	background-image: url('https://wanderersandwarriors.com/wp-content/uploads/2018/03/The-Best-Hawker-Centres-In-Singapore-6-1440x960.jpg');
+}
+.carousel-img-2 {
+	background-image: url('https://i.ytimg.com/vi/MHG3n_-Y33A/maxresdefault.jpg');
+}
+
+.carousel-img-3 {
+	background-image: url('https://theculturetrip.com/wp-content/uploads/2018/05/de4wxm.jpg');
+}
+
+#searchrow{
+	margin:0;
+	padding:0 !important;
+}

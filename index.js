@@ -106,6 +106,80 @@ let logout = (request,response)=>{
     response.redirect('/findfood');
 }
 
+let userAllReviewsPost = (request,response)=>{
+    console.log(request.params.id);
+    response.send('inside userAllReviewsPost function');
+}
+
+let userAllFoodplacesPost = (request,response)=>{
+    // console.log(request.params.id);
+    // response.send('inside userAllFoodPlacesPost function');
+    let query = 'select * from users where id=$1'
+    let values = [request.params.id]
+    pool.query(query,values,(error,result)=>{
+        if(error){
+            console.log('error',error);
+            response.send('error in checking database');
+        }
+        else{
+            // console.log(result.rows[0]);
+            if(result.rows.length>0){
+                let query2 = 'select users.id, foodplace.foodplace_id, foodplace.shopname, foodplace.address, foodplace.postalcode, foodplace.location, foodplace.category, foodplace.image_url from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
+                pool.query(query2,values,(error,result2)=>{
+                    if(error){
+                        console.log('error',error);
+                        response.send('error in checking database');
+                    }
+                    else{
+                        // console.log(result2.rows);
+                        if(result2.rows.length>0){
+                            let query3 ='select count(*) from users inner join reviews on (users.id = reviews.user_id) where users.id = $1';
+                            pool.query(query3,values,(error,result3)=>{
+                                if(error){
+                                    console.log('error',error);
+                                    response.send('error in checking database');
+                                }
+                                else{
+                                    console.log(result3.rows[0]);
+                                    if(result3.rows.length>0){
+                                        let query4 = 'select count(*) from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
+                                        pool.query(query4,values,(error,result4)=>{
+                                            if(error){
+                                                console.log('error',error);
+                                            }
+                                            else{
+                                                console.log(result4.rows[0]);
+                                                let data = {
+                                                    userId:request.cookies.user_id,
+                                                    userData:result.rows[0],
+                                                    allFoodPlacePost:result2.rows,
+                                                    userTotalReviewNum:result3.rows[0],
+                                                    userTotalFoodPlacePost:result4.rows[0]
+                                                }
+                                                console.log(data);
+                                                response.render('userallfoodpost',data);
+                                            }
+                                        })
+                                    }
+                                    else{
+
+                                    }
+                                }
+                            })
+                        }
+                        else{
+
+                        }
+
+                    }
+                })
+            }
+            else{
+                response.send('no such users')
+            }
+        }
+    })
+}
 
 let showCategory = (request,response)=>{
     if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
@@ -181,7 +255,7 @@ let showIndividualShop = (request,response)=>{
     }
     else{
         // response.send('inside showIndividualShop function');
-        console.log(request.params.id);
+        // console.log(request.params.id);
         let query = 'select * from foodplace where foodplace_id = $1';
         let values = [request.params.id];
         pool.query(query,values,(error,result)=>{
@@ -190,7 +264,7 @@ let showIndividualShop = (request,response)=>{
                 response.send('error in checking database');
             }
             else{
-                console.log(result.rows[0]);
+                // console.log(result.rows[0]);
                 if(result.rows.length>0){
                     let query2 = 'select * from users where id = $1'
                     values = [request.cookies.user_id]
@@ -200,7 +274,7 @@ let showIndividualShop = (request,response)=>{
                             response.send('error in checking data');
                         }
                         else{
-                            console.log(result2.rows[0]);
+                            // console.log(result2.rows[0]);
                             if(result2.rows.length>0){
                                 let query3 = 'SELECT reviews.review_id,reviews.rating, reviews.comment, users.profile_name FROM reviews INNER JOIN users ON (users.id = reviews.user_id) where shop_id = $1 order by reviews.review_id desc';
                                 values = [request.params.id];
@@ -216,7 +290,7 @@ let showIndividualShop = (request,response)=>{
                                             userData:result2.rows[0],
                                             shopReview:result3.rows
                                         }
-                                        console.log(data);
+                                        // console.log(data);
                                         response.render('individualpage',data);
                                     }
                                 })
@@ -574,6 +648,12 @@ let home = (request,response)=>{
  * ===================================
  */
 
+app.get('/findfood/signout',logout);
+
+app.get('/findfood/showallreviews/:id',userAllReviewsPost);
+
+app.get('/findfood/showallfoodpost/:id',userAllFoodplacesPost);
+
 app.get('/findfood/category/:categoryname', showCategory);
 
 app.post('/findfood/review/:shop_id/:user_id', postReview);
@@ -587,8 +667,6 @@ app.get('/findfood/search/:location', showAllFood);
 app.post('/findfood/search', searchByLocation);
 
 app.post('/findfood/foodpost/:id', upload.single('image_url'), foodPost);
-
-app.get('/findfood/signout',logout);
 
 app.get('/findfood/profile/:id',profilePage);
 
