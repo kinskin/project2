@@ -21,6 +21,7 @@ class UserAllFoodPlacesPost extends React.Component {
     let allFoodStyle = {
         display:'flex',
         flexWrap:'wrap',
+        justifyContent: 'space-around'
     }
 
     let shopImageCategory = {
@@ -34,7 +35,7 @@ class UserAllFoodPlacesPost extends React.Component {
     }
 
     let shopStyle = {
-        width:'16rem',
+        width:'18rem',
         margin:'10px auto'
     }
 
@@ -64,24 +65,26 @@ class UserAllFoodPlacesPost extends React.Component {
         let urlIndividualShop = '/findfood/individual/'+shop.foodplace_id;
         let urlSearchByLocation = '/findfood/search/'+shop.location;
         let urlSearchByCategory = '/findfood/category/'+shop.category;
-        let urlEditFoodPlacePost = '/findfood/updatefoodplace/'+shop.foodplace_id;
-        let urlDeleteFoodPlacePost = '/findfood/deletefoodplace/'+shop.foodplace_id;
 
+        let urlDeleteFoodPlacePost = '/findfood/deletefoodplace/'+shop.foodplace_id;
+        let urlEditFoodPlacePost = '/findfood/updatefoodplace/'+shop.foodplace_id+'/?_method=PUT';
         return(
-            <div class="card" style={shopStyle}>
-                <a href={urlIndividualShop}>
-                    <img style={shopImageCategory} class="card-img-top" src={shop.image_url}/>
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">{shop.shopname}</h5>
-                    <p>Location: {shop.location}</p>
-                    <p>Address: {shop.address}</p>
-                    <p>Postal code: S({shop.postalcode})</p>
-                    <p>Category: {shop.category}</p>
-                </div>
-                <div class="card-footer">
-                    <a className="btn btn-sm" href= {urlEditFoodPlacePost}>Edit shop entry</a>
-                    <a className="btn btn-sm" href={urlDeleteFoodPlacePost}>Delete shop entry</a>
+            <div>
+                <div class="card" style={shopStyle}>
+                    <a href={urlIndividualShop}>
+                        <img style={shopImageCategory} class="card-img-top" src={shop.image_url}/>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{shop.shopname}</h5>
+                        <p>Location: {shop.location}</p>
+                        <p>Address: {shop.address}</p>
+                        <p>Postal code: S({shop.postalcode})</p>
+                        <p>Category: {shop.category}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a className="btn btn-sm" href= {urlEditFoodPlacePost}>Edit shop entry</a>
+                        <a className="btn btn-sm" href={urlDeleteFoodPlacePost}>Delete shop entry</a>
+                    </div>
                 </div>
             </div>
         )
@@ -92,7 +95,7 @@ class UserAllFoodPlacesPost extends React.Component {
       <html>
         <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous"/>
-            <link rel="stylesheet" href="/profile.css"/>
+            <link rel="stylesheet" href="/userallfoodpost.css"/>
         </head>
         <body>
             <div className='container-fluid'>
@@ -140,8 +143,10 @@ class UserAllFoodPlacesPost extends React.Component {
                             <div className='card-header'>
                                 <p>Your food places posts</p>
                                 <div className = 'card'>
-                                    <div className='card-body' style={allFoodStyle}>
-                                        <p>{mapFoodPlace}</p>
+                                    <div className='foodCard'>
+                                        <div className='card-body' style={allFoodStyle}>
+                                            {mapFoodPlace}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

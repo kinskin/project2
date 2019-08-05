@@ -74,7 +74,6 @@ class Login extends React.Component {
                                         <button className="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
                                         <br />
                                         <br />
-                                        <a href='' >Forgot password?</a>
                                     </div>
                                 </form>
                             </div>

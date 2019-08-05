@@ -26,7 +26,7 @@ class Homepage extends React.Component {
 
     let allFoodStyle = {
         display:'flex',
-        flexWrap:'wrap',
+        flexWrap:'wrap'
     }
 
     let shopImageCategory = {

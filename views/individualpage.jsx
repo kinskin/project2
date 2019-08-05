@@ -6,6 +6,7 @@ class Individual extends React.Component {
     let urlHome ='/findfood/homepage'
     let urlHalal = '/findfood/search/'+this.props.shop.location+'/halal';
     let urlVegetarian = '/findfood/search/'+this.props.shop.location+'/vegetarian';
+     let urlNonHalalCategory = '/findfood/search/'+this.props.location+'/non-halal'
     let urlAllFood = '/findfood/search/'+this.props.shop.location;
     let urlPostReview = '/findfood/review/'+this.props.shop.foodplace_id+'/'+this.props.userData.id;
     let urlSearchLocation ='/findfood/search'
@@ -110,6 +111,9 @@ class Individual extends React.Component {
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <a className="nav-link btn" href={urlAllFood}>All food</a>
+                            </li>
+                            <li className="nav-item">
+                                    <a className="nav-link btn" href={urlNonHalalCategory}>Non-halal</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link btn" href={urlHalal}>Halal</a>

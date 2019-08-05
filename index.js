@@ -134,10 +134,24 @@ let deleteReviewPage = (request,response)=>{
         }
         else{
             // console.log(result.rows[0]);
-            let data = {
-                reviewData : result.rows[0]
+            if(result.rows.length>0){
+                let query2='select * from users where id=$1'
+                values = [request.cookies.user_id]
+                pool.query(query2,values,(error,result2)=>{
+                    if(error){
+                        console.log('error',error)
+                        response.send('error in checking data base')
+                    }
+                    else{
+                        let data = {
+                            userId:request.cookies.user_id,
+                            reviewData : result.rows[0],
+                            userData:result2.rows[0]
+                        }
+                        response.render('deletereviewpage',data)
+                    }
+                })
             }
-            response.render('deletereviewpage',data)
         }
     })
 }
@@ -172,10 +186,24 @@ let reviewEditPage = (request,response)=>{
         }
         else{
             console.log(result.rows[0]);
-            let data = {
-                reviewData:result.rows[0]
+            if(result.rows.length>0){
+                let query2='select * from users where id=$1'
+                values = [request.cookies.user_id]
+                pool.query(query2,values,(error,result2)=>{
+                    if(error){
+                        console.log('error',error)
+                        response.send('error in checking data');
+                    }
+                    else{
+                        let data = {
+                            userId:request.cookies.user_id,
+                            reviewData:result.rows[0],
+                            userData:result2.rows[0]
+                        }
+                        response.render('editreviewpage' ,data);
+                    }
+                })
             }
-            response.render('editreviewpage' ,data);
         }
     })
 }
@@ -208,10 +236,25 @@ let deleteFoodPlacePage = (request,response)=>{
         }
         else{
             // console.log(result.rows[0]);
-            let data = {
-                foodPlaceData:result.rows[0]
+            if(result.rows.length>0){
+                let query2 = 'select * from users where id = $1'
+                values = [request.cookies.user_id]
+                pool.query(query2,values,(error,result2)=>{
+                    if(error){
+                        console.log('error',error)
+                        response.send('error checking database')
+                    }
+                    else{
+                        // console.log(result2.rows[0])
+                        let data = {
+                            userId:request.cookies.user_id,
+                            foodPlaceData:result.rows[0],
+                            userData:result2.rows[0]
+                        }
+                        response.render('deletefoodplace',data);
+                    }
+                })
             }
-            response.render('deletefoodplace',data);
         }
     })
 }
@@ -253,11 +296,24 @@ let editFoodplacePage = (request,response)=>{
             response.send('error in checking database');
         }
         else{
-            console.log(result.rows[0]);
-            let data = {
-                foodPlaceData:result.rows[0]
+            if(result.rows.length>0){
+                let query2='select * from users where id=$1'
+                values = [request.cookies.user_id]
+                pool.query(query2,values,(error,result2)=>{
+                    if(error){
+                        console.log('error',error)
+                        response.send('error in checking data');
+                    }
+                    else{
+                        let data = {
+                            userId:request.cookies.user_id,
+                            foodPlaceData:result.rows[0],
+                            userData:result2.rows[0]
+                        }
+                        response.render('editfoodplaceform',data)
+                    }
+                })
             }
-            response.render('editfoodplaceform',data)
         }
     })
 }

@@ -126,7 +126,6 @@ class Category extends React.Component {
                             <p>{mapFoodLocation}</p>
                         </div>
                     </div>
-                    <div class="card-footer text-muted"></div>
                 </div>
             </div>
 

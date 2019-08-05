@@ -20,12 +20,13 @@ class ProfilePage extends React.Component {
 
     let allFoodStyle = {
         display:'flex',
-        flexWrap:'wrap',
+        flexWrap:'nowrap',
+        justifyContent: 'space-around'
     }
 
     let shopImageCategory = {
-        height:'150px',
-        weight:'300px'
+        height:'200px',
+        weight:'200px'
     }
 
     let postReview={
@@ -35,7 +36,6 @@ class ProfilePage extends React.Component {
 
     let shopStyle = {
         width:'16rem',
-        margin:'10px auto'
     }
 
     let reviewRow = {
@@ -58,6 +58,10 @@ class ProfilePage extends React.Component {
         height:'200px',
         width:'200px',
         borderRadius:'100%'
+    }
+
+    let margin={
+        marginTop:'10px'
     }
 
     return (
@@ -90,7 +94,7 @@ class ProfilePage extends React.Component {
                         <a className='d-inline-block align-top btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
-                <div className='row'>
+                <div className='row' style={margin}>
                     <div className='col-3'>
                         <div className='card'>
                             <div className='text-center'>
@@ -117,42 +121,36 @@ class ProfilePage extends React.Component {
                                     <p>Your food places posts</p>
                                 </div>
                                 <div className="foodCard">
-                                    <div className='card-body'>
-                                        <div className='row'>
-                                            <div className='col-4'>
-                                                <div className='card'>
-                                                    <img style = {shopImageCategory} class="card-img-top" src={this.props.userFoodPlacePost[0].image_url}/>
-                                                    <div className='card-body'>
-                                                        <p className='card-title'>{this.props.userFoodPlacePost[0].shopname}</p>
-                                                        <p>Address: {this.props.userFoodPlacePost[0].address}</p>
-                                                        <p>Postal Code: {this.props.userFoodPlacePost[0].postalcode}</p>
-                                                        <p>Location: {this.props.userFoodPlacePost[0].location}</p>
-                                                        <p>Category: {this.props.userFoodPlacePost[0].category}</p>
-                                                    </div>
+                                    <div className='card-body' >
+                                        <div className='row' style={allFoodStyle}>
+                                            <div className='card' style={shopStyle}>
+                                                <img style = {shopImageCategory} class="card-img-top" src={this.props.userFoodPlacePost[0].image_url}/>
+                                                <div className='card-body'>
+                                                    <p className='card-title'>{this.props.userFoodPlacePost[0].shopname}</p>
+                                                    <p>Address: {this.props.userFoodPlacePost[0].address}</p>
+                                                    <p>Postal Code: {this.props.userFoodPlacePost[0].postalcode}</p>
+                                                    <p>Location: {this.props.userFoodPlacePost[0].location}</p>
+                                                    <p>Category: {this.props.userFoodPlacePost[0].category}</p>
                                                 </div>
                                             </div>
-                                            <div className='col-4'>
-                                                <div className='card'>
-                                                    <img style = {shopImageCategory} class="card-img-top" src={this.props.userFoodPlacePost[1].image_url}/>
-                                                    <div className='card-body'>
-                                                        <p className='card-title'>{this.props.userFoodPlacePost[1].shopname}</p>
-                                                        <p>Address: {this.props.userFoodPlacePost[1].address}</p>
-                                                        <p>Postal Code: {this.props.userFoodPlacePost[1].postalcode}</p>
-                                                        <p>Location: {this.props.userFoodPlacePost[1].location}</p>
-                                                        <p>Category: {this.props.userFoodPlacePost[1].category}</p>
-                                                    </div>
+                                            <div className='card' style={shopStyle}>
+                                                <img style = {shopImageCategory} class="card-img-top" src={this.props.userFoodPlacePost[1].image_url}/>
+                                                <div className='card-body'>
+                                                    <p className='card-title'>{this.props.userFoodPlacePost[1].shopname}</p>
+                                                    <p>Address: {this.props.userFoodPlacePost[1].address}</p>
+                                                    <p>Postal Code: {this.props.userFoodPlacePost[1].postalcode}</p>
+                                                    <p>Location: {this.props.userFoodPlacePost[1].location}</p>
+                                                    <p>Category: {this.props.userFoodPlacePost[1].category}</p>
                                                 </div>
                                             </div>
-                                            <div className='col-4'>
-                                                <div className='card'>
-                                                    <img style = {shopImageCategory} class="card-img-top" src={this.props.userFoodPlacePost[2].image_url}/>
-                                                    <div className='card-body'>
-                                                        <p className='card-title'>{this.props.userFoodPlacePost[2].shopname}</p>
-                                                        <p>Address: {this.props.userFoodPlacePost[2].address}</p>
-                                                        <p>Postal Code: {this.props.userFoodPlacePost[2].postalcode}</p>
-                                                        <p>Location: {this.props.userFoodPlacePost[2].location}</p>
-                                                        <p>Category: {this.props.userFoodPlacePost[2].category}</p>
-                                                    </div>
+                                            <div className='card' style={shopStyle}>
+                                                <img style = {shopImageCategory} class="card-img-top" src={this.props.userFoodPlacePost[2].image_url}/>
+                                                <div className='card-body'>
+                                                    <p className='card-title'>{this.props.userFoodPlacePost[2].shopname}</p>
+                                                    <p>Address: {this.props.userFoodPlacePost[2].address}</p>
+                                                    <p>Postal Code: {this.props.userFoodPlacePost[2].postalcode}</p>
+                                                    <p>Location: {this.props.userFoodPlacePost[2].location}</p>
+                                                    <p>Category: {this.props.userFoodPlacePost[2].category}</p>
                                                 </div>
                                             </div>
                                         </div>
