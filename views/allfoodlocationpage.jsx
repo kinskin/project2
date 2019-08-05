@@ -6,6 +6,7 @@ class AllFoodLocation extends React.Component {
     let urlHome ='/findfood/homepage'
     let urlHalal = '/findfood/search/'+this.props.location+'/halal';
     let urlVegetarian = '/findfood/search/'+this.props.location+'/vegetarian';
+    let urlNonHalalCategory = '/findfood/search/'+this.props.location+'/non-halal'
     let urlSearchLocation ='/findfood/search'
     let urlAllFood = '/findfood/search/'+this.props.location;
     let urlProfile = '/findfood/profile/'+this.props.userId;
@@ -33,6 +34,12 @@ class AllFoodLocation extends React.Component {
     let shopImageCategory = {
         height:'200px',
         weight:'300px'
+    }
+
+    let profileImage = {
+        height:'30px',
+        width:'30px',
+        borderRadius:'100%'
     }
 
     let mapFoodLocation = this.props.allFoodAtLocation.map(food=>{
@@ -82,8 +89,10 @@ class AllFoodLocation extends React.Component {
                         <small id="emailHelp" class="form-text text-muted">Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
                     </div>
                     <div className = 'text-right'>
-                        <a className='btn' href={urlProfile}>{this.props.userData.profile_name}</a>
-                        <a className='btn' href={urlLogout}>Sign out</a>
+                        <a className='btn' href={urlProfile}>
+                        <img className='d-inline-block align-top' style = {profileImage} src={this.props.userData.profile_image}/>{this.props.userData.profile_name}
+                        </a>
+                        <a className='d-inline-block align-top btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
                 <div class="card text-center">
@@ -92,6 +101,9 @@ class AllFoodLocation extends React.Component {
                             <ul className="navbar-nav">
                                 <li className="nav-item">
                                     <a className="nav-link btn" href={urlAllFood}>All food</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link btn" href={urlNonHalalCategory}>Non-halal</a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link btn" href={urlHalal}>Halal</a>
@@ -109,8 +121,10 @@ class AllFoodLocation extends React.Component {
                             Add shop location</button>
                         </div>
                     </nav>
-                    <div className="card-body" style={allFoodStyle}>
-                        <p>{mapFoodLocation}</p>
+                    <div className="foodCard">
+                        <div className="card-body" style={allFoodStyle}>
+                            <p>{mapFoodLocation}</p>
+                        </div>
                     </div>
                     <div className="card-footer text-muted"></div>
                 </div>
@@ -140,7 +154,7 @@ class AllFoodLocation extends React.Component {
                                     <input className = 'form-control form-control-sm' type="text" name="postalcode" placeholder='Enter postal code'/>
                                 </div>
                                 <div className='form-group'>
-                                    <p>Enter shop location: (e.g tanjung pagar, yishun, ....)</p>
+                                    <p>Enter shop location: (e.g tanjong pagar, yishun, ....)</p>
                                     <input className = 'form-control form-control-sm' type="text" name="location" readOnly='readOnly'defaultValue={this.props.location}/>
                                 </div>
                                 <div className='form-group'>
@@ -148,8 +162,8 @@ class AllFoodLocation extends React.Component {
                                     <input className='btn btn-sm'type="file" name='image_url'/>
                                 </div>
                                 <div className='form-group'>
-                                    <p>Enter category of food: (normal/halal/vegeterian)</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='normal/halal/vegetarian'/>
+                                    <p>Enter category of food: (non-halal/halal/vegeterian)</p>
+                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='non-halal/halal/vegetarian'/>
                                 </div>
                                 <br />
                                 <div className='text-right'>

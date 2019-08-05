@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username TEXT,
     password TEXT,
-    profile_name TEXT
+    profile_name TEXT,
+    profile_image TEXT
 );
 
 CREATE TABLE IF NOT EXISTS foodplace (

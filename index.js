@@ -106,79 +106,310 @@ let logout = (request,response)=>{
     response.redirect('/findfood');
 }
 
-let userAllReviewsPost = (request,response)=>{
-    console.log(request.params.id);
-    response.send('inside userAllReviewsPost function');
+let deleteReview = (request,response)=>{
+    // console.log(request.params.review_id);
+    // response.send('inside deletereview function');
+    let query = 'DELETE from reviews WHERE review_id =$1'
+    let values=[request.params.review_id];
+    pool.query(query,values,(error,result)=>{
+        if(error){
+            console.log('error',error);
+            response.send('error in deleting data')
+        }
+        else{
+            response.redirect('/findfood/showallreviews/'+request.cookies.user_id)
+        }
+    })
 }
 
-let userAllFoodplacesPost = (request,response)=>{
-    // console.log(request.params.id);
-    // response.send('inside userAllFoodPlacesPost function');
-    let query = 'select * from users where id=$1'
-    let values = [request.params.id]
+let deleteReviewPage = (request,response)=>{
+    // console.log(request.params.review_id);
+    // response.send('inside deletereviewpage function');
+    let query = 'select * from reviews where review_id = $1'
+    let values = [request.params.review_id];
+    pool.query(query,values,(error,result)=>{
+        if(error){
+            console.log('error',error)
+            response.send('error in checking database');
+        }
+        else{
+            // console.log(result.rows[0]);
+            let data = {
+                reviewData : result.rows[0]
+            }
+            response.render('deletereviewpage',data)
+        }
+    })
+}
+
+let updateReview = (request,response)=>{
+    // console.log(request.body);
+    // console.log(request.params.review_id);
+    // response.send('inside update function');
+    let query = 'UPDATE reviews SET rating = $1, comment = $2 WHERE review_id = $3'
+    let values=[request.body.rating, request.body.comment,request.params.review_id];
+    console.log(values);
+    pool.query(query,values,(error,result)=>{
+        if(error){
+            console.log('error',error);
+            response.send('error in updating database');
+        }
+        else{
+            response.redirect('/findfood/showallreviews/'+request.cookies.user_id);
+        }
+    })
+}
+
+let reviewEditPage = (request,response)=>{
+    // console.log(request.params.review_id);
+    // response.send('inside reviewEditPage function');
+    let query = 'select * from reviews where review_id = $1'
+    let values = [request.params.review_id];
+    pool.query(query,values,(error,result)=>{
+        if(error){
+            console.log('error',error)
+            response.send('error in checking database');
+        }
+        else{
+            console.log(result.rows[0]);
+            let data = {
+                reviewData:result.rows[0]
+            }
+            response.render('editreviewpage' ,data);
+        }
+    })
+}
+
+let deleteFoodPlace = (request,response)=>{
+    console.log(request.params.foodplace_id)
+    // response.send('inside delete food place function');
+    let query ='DELETE from foodplace WHERE foodplace_id =$1'
+    let values=[request.params.foodplace_id]
+    pool.query(query,values,(error,result)=>{
+        if(error){
+            console.log('error',error);
+            response.send('error in deleting the data from database');
+        }
+        else{
+            response.redirect('/findfood/homepage')
+        }
+    })
+}
+
+let deleteFoodPlacePage = (request,response)=>{
+    console.log(request.params.foodplace_id);
+    // response.send('inside deletefoodplacepage function');
+    let query = 'select * from foodplace where foodplace_id=$1'
+    let values = [request.params.foodplace_id];
+    pool.query(query,values,(error,result)=>{
+        if(error){
+            console.log('error',error);
+            response.send('error checking database');
+        }
+        else{
+            // console.log(result.rows[0]);
+            let data = {
+                foodPlaceData:result.rows[0]
+            }
+            response.render('deletefoodplace',data);
+        }
+    })
+}
+
+let userUpdateFoodPlacePost = (request,response)=>{
+    // response.send('inside userUpdateFoodPlacePost function');
+    console.log(request.params.foodplace_id);
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        // console.log(request.body);
+        cloudinary.uploader.upload(request.file.path, function(result) {
+            // console.log(result.url);
+            let query = 'UPDATE foodplace SET shopname=$1, address=$2, postalcode=$3, location=$4, image_url=$5 WHERE foodplace_id = $6'
+            let values = [request.body.shopname, request.body.address, request.body.postalcode, request.body.location, result.url, request.params.foodplace_id];
+            // console.log(values);
+            pool.query(query,values,(error,result)=>{
+                if(error){
+                    console.log('error',error);
+                    response.send('error in updating the database');
+                }
+                else{
+                    response.redirect('/findfood/individual/'+request.params.foodplace_id);
+                }
+            })
+        });
+    }
+}
+
+let editFoodplacePage = (request,response)=>{
+    console.log(request.params.foodplace_id);
+    // response.send('inside editfoodplacepage function');
+    let query = 'select * from foodplace where foodplace_id=$1';
+    let values=[request.params.foodplace_id];
     pool.query(query,values,(error,result)=>{
         if(error){
             console.log('error',error);
             response.send('error in checking database');
         }
         else{
-            // console.log(result.rows[0]);
-            if(result.rows.length>0){
-                let query2 = 'select users.id, foodplace.foodplace_id, foodplace.shopname, foodplace.address, foodplace.postalcode, foodplace.location, foodplace.category, foodplace.image_url from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
-                pool.query(query2,values,(error,result2)=>{
-                    if(error){
-                        console.log('error',error);
-                        response.send('error in checking database');
-                    }
-                    else{
-                        // console.log(result2.rows);
-                        if(result2.rows.length>0){
-                            let query3 ='select count(*) from users inner join reviews on (users.id = reviews.user_id) where users.id = $1';
-                            pool.query(query3,values,(error,result3)=>{
-                                if(error){
-                                    console.log('error',error);
-                                    response.send('error in checking database');
-                                }
-                                else{
-                                    console.log(result3.rows[0]);
-                                    if(result3.rows.length>0){
-                                        let query4 = 'select count(*) from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
-                                        pool.query(query4,values,(error,result4)=>{
-                                            if(error){
-                                                console.log('error',error);
-                                            }
-                                            else{
-                                                console.log(result4.rows[0]);
-                                                let data = {
-                                                    userId:request.cookies.user_id,
-                                                    userData:result.rows[0],
-                                                    allFoodPlacePost:result2.rows,
-                                                    userTotalReviewNum:result3.rows[0],
-                                                    userTotalFoodPlacePost:result4.rows[0]
-                                                }
-                                                console.log(data);
-                                                response.render('userallfoodpost',data);
-                                            }
-                                        })
-                                    }
-                                    else{
-
-                                    }
-                                }
-                            })
-                        }
-                        else{
-
-                        }
-
-                    }
-                })
+            console.log(result.rows[0]);
+            let data = {
+                foodPlaceData:result.rows[0]
             }
-            else{
-                response.send('no such users')
-            }
+            response.render('editfoodplaceform',data)
         }
     })
+}
+
+let userAllReviewsPost = (request,response)=>{
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        console.log(request.params.id);
+    // response.send('inside userAllReviewsPost function');
+        let query = 'select * from users where id=$1'
+        let values = [request.params.id]
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in checking database');
+            }
+            else{
+                // console.log(result.rows[0]);
+                if(result.rows.length>0){
+                    let query2 = 'select reviews. review_id, reviews.rating, reviews.comment, foodplace.foodplace_id, foodplace.shopname, foodplace.image_url from reviews inner join foodplace on(foodplace.foodplace_id = reviews.shop_id) where reviews.user_id = $1'
+                    pool.query(query2,values,(error,result2)=>{
+                        if(error){
+                            console.log('error',error);
+                            response.send('error in checking database');
+                        }
+                        else{
+                            // console.log(result2.rows);
+                            if(result2.rows.length>0){
+                                let query3 ='select count(*) from users inner join reviews on (users.id = reviews.user_id) where users.id = $1';
+                                pool.query(query3,values,(error,result3)=>{
+                                    if(error){
+                                        console.log('error',error);
+                                        response.send('error in checking database');
+                                    }
+                                    else{
+                                        console.log(result3.rows[0]);
+                                        if(result3.rows.length>0){
+                                            let query4 = 'select count(*) from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
+                                            pool.query(query4,values,(error,result4)=>{
+                                                if(error){
+                                                    console.log('error',error);
+                                                }
+                                                else{
+                                                    console.log(result4.rows[0]);
+                                                    let data = {
+                                                        userId:request.cookies.user_id,
+                                                        userData:result.rows[0],
+                                                        allShopReviews:result2.rows,
+                                                        userTotalReviewNum:result3.rows[0],
+                                                        userTotalFoodPlacePost:result4.rows[0]
+                                                    }
+                                                    console.log(data);
+                                                    response.render('userallreviewpost',data);
+                                                }
+                                            })
+                                        }
+                                        else{
+
+                                        }
+                                    }
+                                })
+                            }
+                            else{
+
+                            }
+
+                        }
+                    })
+                }
+                else{
+                    response.send('no such users')
+                }
+            }
+        })
+    }
+}
+
+let userAllFoodplacesPost = (request,response)=>{
+    if(request.cookies.logged_in === undefined || request.cookies.loggedin === false){
+        response.send('Please login or sign up');
+    }
+    else{
+        // console.log(request.params.id);
+        // response.send('inside userAllFoodPlacesPost function');
+        let query = 'select * from users where id=$1'
+        let values = [request.params.id]
+        pool.query(query,values,(error,result)=>{
+            if(error){
+                console.log('error',error);
+                response.send('error in checking database');
+            }
+            else{
+                // console.log(result.rows[0]);
+                if(result.rows.length>0){
+                    let query2 = 'select users.id, foodplace.foodplace_id, foodplace.shopname, foodplace.address, foodplace.postalcode, foodplace.location, foodplace.category, foodplace.image_url from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
+                    pool.query(query2,values,(error,result2)=>{
+                        if(error){
+                            console.log('error',error);
+                            response.send('error in checking database');
+                        }
+                        else{
+                            // console.log(result2.rows);
+                            if(result2.rows.length>0){
+                                let query3 ='select count(*) from users inner join reviews on (users.id = reviews.user_id) where users.id = $1';
+                                pool.query(query3,values,(error,result3)=>{
+                                    if(error){
+                                        console.log('error',error);
+                                        response.send('error in checking database');
+                                    }
+                                    else{
+                                        console.log(result3.rows[0]);
+                                        if(result3.rows.length>0){
+                                            let query4 = 'select count(*) from users inner join foodplace on (users.id = foodplace.user_id) where users.id = $1'
+                                            pool.query(query4,values,(error,result4)=>{
+                                                if(error){
+                                                    console.log('error',error);
+                                                }
+                                                else{
+                                                    console.log(result4.rows[0]);
+                                                    let data = {
+                                                        userId:request.cookies.user_id,
+                                                        userData:result.rows[0],
+                                                        allFoodPlacePost:result2.rows,
+                                                        userTotalReviewNum:result3.rows[0],
+                                                        userTotalFoodPlacePost:result4.rows[0]
+                                                    }
+                                                    console.log(data);
+                                                    response.render('userallfoodpost',data);
+                                                }
+                                            })
+                                        }
+                                        else{
+
+                                        }
+                                    }
+                                })
+                            }
+                            else{
+
+                            }
+
+                        }
+                    })
+                }
+                else{
+                    response.send('no such users')
+                }
+            }
+        })
+    }
 }
 
 let showCategory = (request,response)=>{
@@ -276,7 +507,7 @@ let showIndividualShop = (request,response)=>{
                         else{
                             // console.log(result2.rows[0]);
                             if(result2.rows.length>0){
-                                let query3 = 'SELECT reviews.review_id,reviews.rating, reviews.comment, users.profile_name FROM reviews INNER JOIN users ON (users.id = reviews.user_id) where shop_id = $1 order by reviews.review_id desc';
+                                let query3 = 'SELECT reviews.review_id,reviews.rating, reviews.comment, users.profile_name, users.profile_image FROM reviews INNER JOIN users ON (users.id = reviews.user_id) where shop_id = $1 order by reviews.review_id desc';
                                 values = [request.params.id];
                                 pool.query(query3,values,(error,result3)=>{
                                     if(error){
@@ -649,6 +880,22 @@ let home = (request,response)=>{
  */
 
 app.get('/findfood/signout',logout);
+
+app.delete('/findfood/deletereview/:review_id', deleteReview)
+
+app.put('/findfood/updatereviewplace/:review_id',updateReview)
+
+app.get('/findfood/deletereview/:review_id', deleteReviewPage)
+
+app.get('/findfood/editreview/:review_id',reviewEditPage)
+
+app.delete('/findfood/deletefoodplace/:foodplace_id',deleteFoodPlace);
+
+app.put('/findfood/updatefoodplace/:foodplace_id', upload.single('image_url'), userUpdateFoodPlacePost);
+
+app.get('/findfood/deletefoodplace/:foodplace_id', deleteFoodPlacePage);
+
+app.get('/findfood/updatefoodplace/:foodplace_id', editFoodplacePage);
 
 app.get('/findfood/showallreviews/:id',userAllReviewsPost);
 

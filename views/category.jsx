@@ -6,6 +6,7 @@ class Category extends React.Component {
     let urlHome ='/findfood/homepage'
     let urlHalal = '/findfood/search/'+this.props.location+'/halal';
     let urlVegetarian = '/findfood/search/'+this.props.location+'/vegetarian';
+    let urlNonHalalCategory = '/findfood/search/'+this.props.location+'/non-halal'
     let urlAllFood = '/findfood/search/'+this.props.location;
     let urlSearchLocation ='/findfood/search'
     let urlProfile = '/findfood/profile/'+this.props.userData.id;
@@ -33,6 +34,12 @@ class Category extends React.Component {
     let shopImageCategory = {
         height:'200px',
         weight:'300px'
+    }
+
+    let profileImage = {
+        height:'30px',
+        width:'30px',
+        borderRadius:'100%'
     }
 
     let mapFoodLocation = this.props.allMentionedFoodResult.map(food=>{
@@ -82,8 +89,10 @@ class Category extends React.Component {
                         <small id="emailHelp" class="form-text text-muted">Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
                     </div>
                     <div className = 'text-right'>
-                        <a className='btn' href={urlProfile}>{this.props.userData.profile_name}</a>
-                        <a className='btn' href={urlLogout}>Sign out</a>
+                        <a className='btn' href={urlProfile}>
+                        <img className='d-inline-block align-top' style = {profileImage} src={this.props.userData.profile_image}/>{this.props.userData.profile_name}
+                        </a>
+                        <a className='d-inline-block align-top btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -92,6 +101,9 @@ class Category extends React.Component {
                             <li className="nav-item">
                                 <a className="nav-link btn" href={urlAllFood}>All food</a>
                             </li>
+                            <li className="nav-item">
+                                    <a className="nav-link btn" href={urlNonHalalCategory}>Non-halal</a>
+                                </li>
                             <li className="nav-item">
                                 <a className="nav-link btn" href={urlHalal}>Halal</a>
                             </li>
@@ -109,8 +121,10 @@ class Category extends React.Component {
                     </div>
                 </nav>
                 <div class="card text-center">
-                    <div class="card-body" style={allFoodStyle}>
-                        <p>{mapFoodLocation}</p>
+                    <div className="foodCard">
+                        <div class="card-body" style={allFoodStyle}>
+                            <p>{mapFoodLocation}</p>
+                        </div>
                     </div>
                     <div class="card-footer text-muted"></div>
                 </div>

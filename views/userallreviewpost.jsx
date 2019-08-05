@@ -1,6 +1,6 @@
 var React = require("react");
 
-class UserAllFoodPlacesPost extends React.Component {
+class UserAllReviewsPost extends React.Component {
   render() {
     let urlHome = '/findfood/homepage';
     let urlLogout = '/findfood/signout';
@@ -60,28 +60,29 @@ class UserAllFoodPlacesPost extends React.Component {
         borderRadius:'100%'
     }
 
-    let mapFoodPlace = this.props.allFoodPlacePost.map(shop=>{
-        let urlIndividualShop = '/findfood/individual/'+shop.foodplace_id;
-        let urlSearchByLocation = '/findfood/search/'+shop.location;
-        let urlSearchByCategory = '/findfood/category/'+shop.category;
-        let urlEditFoodPlacePost = '/findfood/updatefoodplace/'+shop.foodplace_id;
-        let urlDeleteFoodPlacePost = '/findfood/deletefoodplace/'+shop.foodplace_id;
-
+    let mapFoodPlace = this.props.allShopReviews.map(review=>{
+        let urlIndividualShop = '/findfood/individual/'+review.foodplace_id;
+        let urlEditReviewPost = '/findfood/editreview/'+review.review_id;
+        let urlDeleteReviewPost = '/findfood/deletereview/'+review.review_id;
         return(
-            <div class="card" style={shopStyle}>
-                <a href={urlIndividualShop}>
-                    <img style={shopImageCategory} class="card-img-top" src={shop.image_url}/>
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">{shop.shopname}</h5>
-                    <p>Location: {shop.location}</p>
-                    <p>Address: {shop.address}</p>
-                    <p>Postal code: S({shop.postalcode})</p>
-                    <p>Category: {shop.category}</p>
+            <div className="card" style={reviewRow}>
+                <div className="row no-gutters">
+                    <div className="col-3">
+                        <div className = 'card-body'>
+                            <img style = {shopRowCategory} src={review.image_url}/>
+                        </div>
+                    </div>
+                    <div className="col-9">
+                        <div className="card-body">
+                            <p className="card-title">{review.shopname}</p>
+                            <p>Rating: {review.rating}/5</p>
+                            <p>Comment: {review.comment}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a className="btn btn-sm" href= {urlEditFoodPlacePost}>Edit shop entry</a>
-                    <a className="btn btn-sm" href={urlDeleteFoodPlacePost}>Delete shop entry</a>
+                <div className="card-footer text-right">
+                    <a className="btn btn-sm" href={urlEditReviewPost}>Edit review</a>
+                    <a className="btn btn-sm" href={urlDeleteReviewPost}>Delete review</a>
                 </div>
             </div>
         )
@@ -139,11 +140,9 @@ class UserAllFoodPlacesPost extends React.Component {
                         <div className='card'>
                             <div className='card-header'>
                                 <p>Your food places posts</p>
-                                <div className = 'card'>
-                                    <div className='card-body' style={allFoodStyle}>
-                                        <p>{mapFoodPlace}</p>
-                                    </div>
-                                </div>
+                            </div>
+                            <div className='card-body'>
+                                {mapFoodPlace}
                             </div>
                         </div>
                     </div>
@@ -159,4 +158,4 @@ class UserAllFoodPlacesPost extends React.Component {
   }
 }
 
-module.exports = UserAllFoodPlacesPost;
+module.exports = UserAllReviewsPost;

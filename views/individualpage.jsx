@@ -44,12 +44,25 @@ class Individual extends React.Component {
         margin : '10px auto'
     }
 
+    let profileImage = {
+        height:'30px',
+        width:'30px',
+        borderRadius:'100%'
+    }
+
+    let bigProfileImageStyle = {
+        height:'100px',
+        width:'100px',
+        borderRadius:'100%'
+    }
+
     let mapReviews = this.props.shopReview.map(review=>{
         return(
             <div className="card text-left" style={reviewStyle}>
                 <div className="card-body">
                     <div className='row'>
-                        <div className='col-3'>
+                        <div className='col-3 text-center'>
+                            <img style={bigProfileImageStyle} src={review.profile_image}/>
                             <h5 className="card-title">{review.profile_name}</h5>
                         </div>
                         <div className='col-9'>
@@ -66,7 +79,7 @@ class Individual extends React.Component {
       <html>
         <head>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous"/>
-            <link rel="stylesheet" href="/individualpage.css"/>
+            <link rel="stylesheet" href="/individual.css"/>
         </head>
         <body>
             <div className='container-fluid'>
@@ -86,8 +99,10 @@ class Individual extends React.Component {
                         <small id="emailHelp" class="form-text text-muted">Search by location: (e.g : tanjong pagar, bishan, yishun,.....)</small>
                     </div>
                     <div className = 'text-right'>
-                        <a className='btn' href={urlProfile}>{this.props.userData.profile_name}</a>
-                        <a className='btn' href={urlLogout}>Sign out</a>
+                        <a className='btn' href={urlProfile}>
+                        <img className='d-inline-block align-top' style = {profileImage} src={this.props.userData.profile_image}/>{this.props.userData.profile_name}
+                        </a>
+                        <a className='d-inline-block align-top btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -129,50 +144,52 @@ class Individual extends React.Component {
                                         </div>
                                     </div>
                                     <div className="card" style={postReview}>
-                                            <div className='card-header'>Post review</div>
-                                            <div className="card-body">
-                                                <form method="POST" action={urlPostReview}>
-                                                    <div className="form-group">
-                                                        <div className='text-left'>
-                                                            <p className='card-title'>Rating</p>
-                                                            <div className="form-check-inline">
-                                                                <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="rating" value='1'/>1</label>
-                                                            </div>
-                                                            <div class="form-check-inline">
-                                                                <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="rating" value='2'/>2</label>
-                                                            </div>
-                                                            <div class="form-check-inline disabled">
-                                                                <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="rating" value='3'/>3</label>
-                                                            </div>
-                                                            <div class="form-check-inline disabled">
-                                                                <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="rating" value='4'/>4</label>
-                                                            </div>
-                                                            <div class="form-check-inline disabled">
-                                                                <label class="form-check-label">
-                                                                    <input type="radio" className="form-check-input" name="rating" value='5'/>5</label>
-                                                            </div>
-                                                            <br />
-                                                            <br />
-                                                        <p className="card-title">Comments</p>
+                                        <div className='card-header'>Post review</div>
+                                        <div className="card-body">
+                                            <form method="POST" action={urlPostReview}>
+                                                <div className="form-group">
+                                                    <div className='text-left'>
+                                                        <p className='card-title'>Rating</p>
+                                                        <div className="form-check-inline">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" className="form-check-input" name="rating" value='1'/>1</label>
                                                         </div>
-                                                        <textarea type="text" name="comment" className="form-control" id="exampleFormControlTextarea1" rows="3"/>
+                                                        <div class="form-check-inline">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" className="form-check-input" name="rating" value='2'/>2</label>
+                                                        </div>
+                                                        <div class="form-check-inline disabled">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" className="form-check-input" name="rating" value='3'/>3</label>
+                                                        </div>
+                                                        <div class="form-check-inline disabled">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" className="form-check-input" name="rating" value='4'/>4</label>
+                                                        </div>
+                                                        <div class="form-check-inline disabled">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" className="form-check-input" name="rating" value='5'/>5</label>
+                                                        </div>
+                                                        <br />
+                                                        <br />
+                                                    <p className="card-title">Comments</p>
                                                     </div>
-                                                    <div className="text-right">
-                                                        <button className="btn btn-outline-danger my-2 my-sm-0" type="submit">Post</button>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                                    <textarea type="text" name="comment" className="form-control" id="exampleFormControlTextarea1" rows="3"/>
+                                                </div>
+                                                <div className="text-right">
+                                                    <button className="btn btn-outline-danger my-2 my-sm-0" type="submit">Post</button>
+                                                </div>
+                                            </form>
                                         </div>
+                                    </div>
                                 </div>
                                 <div className='col-8'>
                                     <div className="card">
                                         <div className="card-header">{this.props.shop.shopname} Reviews</div>
-                                        <div className='card-body'>
-                                        <p>{mapReviews}</p>
+                                        <div className='foodCard'>
+                                            <div className='card-body'>
+                                                <p>{mapReviews}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

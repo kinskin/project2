@@ -9,6 +9,7 @@ class Homepage extends React.Component {
     let urlFoodPost = '/findfood/foodpost/'+this.props.userId;
     let urlHalalCategory = '/findfood/category/halal'
     let urlVegeterianCategory = '/findfood/category/vegetarian'
+    let urlNonHalalCategory = '/findfood/category/non-halal'
     let navStyle = {
         margin:'10px 0 0 0'
     }
@@ -31,6 +32,12 @@ class Homepage extends React.Component {
     let shopImageCategory = {
         height:'200px',
         weight:'300px'
+    }
+
+    let profileImage = {
+        height:'30px',
+        width:'30px',
+        borderRadius:'100%'
     }
 
 
@@ -70,12 +77,15 @@ class Homepage extends React.Component {
                     <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
                     </a>
                     <div className = 'text-right'>
-                        <a className='btn' href={urlProfile}>{this.props.userData.profile_name}</a>
-                        <a className='btn' href={urlLogout}>Sign out</a>
+                        <a className='btn' href={urlProfile}>
+                        <img className='d-inline-block align-top' style = {profileImage} src={this.props.userData.profile_image}/>{this.props.userData.profile_name}
+                        </a>
+                        <a className='d-inline-block align-top btn' href={urlLogout}>Sign out</a>
                     </div>
                 </nav>
                 <div id='searchrow'>
                     <div className ='row'>
+                        <div className='col-3'></div>
                         <div className='col-6'>
                             <div class="card bg-dark text-white" id="test">
                                 <img src="https://www.nea.gov.sg/images/default-source/our-serivces/hawker-management/chomp-chomp-food-centre.jpg" class="card-img"/>
@@ -93,31 +103,7 @@ class Homepage extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-6'>
-                            <div className="card bg-dark text-white">
-                                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                                    <div className="carousel-inner">
-                                        <div className="carousel-item active">
-                                            <div className="carousel-img carousel-img-1"></div>
-                                        </div>
-                                        <div className="carousel-item">
-                                            <div className="carousel-img carousel-img-2"></div>
-                                        </div>
-                                        <div className="carousel-item">
-                                            <div className="carousel-img carousel-img-3"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card-img-overlay text-center">
-                                    <h2 className="card-title">Top Picks for the Month</h2>
-                                    <br />
-                                    <h4 className="card-text">Don't know where to find food?</h4>
-                                    <h4 className='card-text'>Use FIND FOOD</h4>
-                                    <br />
-                                    <p className='card-text'>Put your own food location to help other when in need of food</p>
-                                </div>
-                            </div>
-                        </div>
+                        <div className='col-3'></div>
                     </div>
                 </div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -125,6 +111,9 @@ class Homepage extends React.Component {
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <a className="nav-link btn" href="#">All food</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link btn" href={urlNonHalalCategory}>Non-halal</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link btn" href={urlHalalCategory}>Halal</a>
@@ -175,7 +164,7 @@ class Homepage extends React.Component {
                                     <input className = 'form-control form-control-sm' type="text" name="postalcode" placeholder='Enter postal code'/>
                                 </div>
                                 <div className='form-group'>
-                                    <p>Enter shop location: (e.g tanjung pagar, yishun, ....)</p>
+                                    <p>Enter shop location: (e.g tanjong pagar, yishun, ....)</p>
                                     <input className = 'form-control form-control-sm' type="text" name="location" placeholder='Enter location'/>
                                 </div>
                                 <div className='form-group'>
@@ -183,8 +172,8 @@ class Homepage extends React.Component {
                                     <input className='btn btn-sm'type="file" name='image_url'/>
                                 </div>
                                 <div className='form-group'>
-                                    <p>Enter category of food: (normal/halal/vegeterian)</p>
-                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='normal/halal/vegetarian'/>
+                                    <p>Enter category of food: (non-halal/halal/vegeterian)</p>
+                                    <input className = 'form-control form-control-sm' type="text" name="category" placeholder='non-halal/halal/vegetarian'/>
                                 </div>
                                 <br />
                                 <div className='text-right'>
@@ -198,6 +187,7 @@ class Homepage extends React.Component {
                     </div>
                 </div>
             </div>
+
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossOrigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossOrigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossOrigin="anonymous"></script>
