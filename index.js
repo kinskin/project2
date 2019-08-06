@@ -977,7 +977,7 @@ app.get('/findfood/addfoodplace/:id',addFoodPlacePage);
 
 app.get('/findfood/homepage',homePage);
 
-app.post('/findfood/signup',createAccountCheck);
+app.post('/findfood/signup', createAccountCheck);
 
 app.post('/findfood/login',loginCheck);
 

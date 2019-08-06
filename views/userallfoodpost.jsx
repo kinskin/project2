@@ -24,6 +24,10 @@ class UserAllFoodPlacesPost extends React.Component {
         justifyContent: 'space-around'
     }
 
+    let oneFoodStyle = {
+        minHeight:'300px'
+    }
+
     let shopImageCategory = {
         height:'150px',
         weight:'300px'
@@ -74,7 +78,7 @@ class UserAllFoodPlacesPost extends React.Component {
                     <a href={urlIndividualShop}>
                         <img style={shopImageCategory} class="card-img-top" src={shop.image_url}/>
                     </a>
-                    <div class="card-body">
+                    <div class="card-body" style={oneFoodStyle}>
                         <h5 class="card-title">{shop.shopname}</h5>
                         <p>Location: {shop.location}</p>
                         <p>Address: {shop.address}</p>
