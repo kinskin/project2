@@ -146,7 +146,8 @@ let deleteReviewPage = (request,response)=>{
                         let data = {
                             userId:request.cookies.user_id,
                             reviewData : result.rows[0],
-                            userData:result2.rows[0]
+                            userData:result2.rows[0],
+                            show: true
                         }
                         response.render('deletereviewpage',data)
                     }
@@ -855,7 +856,7 @@ let loginCheck = (request,response)=>{
     // response.send('inside logincheck function');
     // console.log(request.body);
     let username = request.body.username;
-    let password = sha256(request.body.password);
+    let password = request.body.password;
     let query = 'select * from users where username = $1';
     let values = [username];
     pool.query(query,values,(error,result)=>{

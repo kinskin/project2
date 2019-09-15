@@ -2,6 +2,7 @@ var React = require("react");
 
 class ProfilePage extends React.Component {
   render() {
+
     let urlHome = '/findfood/homepage';
     let urlLogout = '/findfood/signout';
     let urlSearchLocation ='/findfood/search';

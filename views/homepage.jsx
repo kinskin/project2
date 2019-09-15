@@ -73,9 +73,7 @@ class Homepage extends React.Component {
         <body>
             <div className='container-fluid'>
                 <nav style = {navStyle} className="navbar navbar-light bg-light">
-                    <a className="navbar-brand mb-0 h1" href="#">
-                    <img src="https://img.icons8.com/ios-glyphs/50/000000/restaurant-building.png" className='d-inline-block align-top' width = '30px' height='30px'/>FindFood
-                    </a>
+                    <a className="navbar-brand mb-0 h1" href="#">FindFood</a>
                     <div className = 'text-right'>
                         <a className='btn' href={urlProfile}>
                         <img className='d-inline-block align-top' style = {profileImage} src={this.props.userData.profile_image}/>{this.props.userData.profile_name}
